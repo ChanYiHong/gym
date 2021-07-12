@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header th:fragment="common_header">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
@@ -18,6 +18,13 @@
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                     </li>
                 </ul>
+                <div sec:authorize="isAnonymous()">
+                    <a href="/login" th:href="@{/login}" class="btn btn-light">로그인</a>
+                    <a href="/join" th:href="@{/join}" class="btn btn-light">회원가입</a>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <a href="/members/logout" class="btn btn-light">로그아웃</a>
+                </div>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>

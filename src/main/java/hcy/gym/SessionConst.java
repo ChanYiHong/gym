@@ -1,0 +1,5 @@
+package hcy.gym;
+
+public abstract class SessionConst {
+    public static final String LOGIN_MEMBER = "loginMember";
+}
