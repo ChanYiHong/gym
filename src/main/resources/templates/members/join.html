@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/head :: common_head2(~{::title})}">
-    <title>회원 가입</title>
+    <title th:text="#{join.title}">회원 가입</title>
+</head>
+<header th:replace="~{/layout/header :: common_header}"></header>
+<body>
+
     <style>
         .container {
             max-width: 560px;
@@ -12,19 +16,15 @@
         }
     </style>
 
-</head>
-<header th:replace="~{/layout/header :: common_header}"></header>
-<body>
-
 <div class="container">
 
     <hr class="my-4">
 
     <div class="py-5 text-center">
-        <h2>회원 가입</h2>
+        <h2 th:text="#{join.title}">회원 가입</h2>
     </div>
 
-    <h4 class="mb-3">회원 정보 입력</h4>
+    <h4 class="mb-3" th:text="#{join.infoInput}">회원 정보 입력</h4>
 
     <form th:acthon th:object="${memberSaveDTO}" method="post">
 
@@ -33,25 +33,25 @@
         </div>
 
         <div>
-            <label for="loginId">아이디</label>
+            <label for="loginId" th:text="#{join.loginId}">아이디</label>
             <input type="text" id="loginId" th:field="*{loginId}" class="form-control" th:errorclass="field-error"/>
             <div class="field-error" th:errors="*{loginId}">아이디 오류</div>
         </div>
 
         <div>
-            <label for="name">이름</label>
+            <label for="name" th:text="#{join.name}">이름</label>
             <input type="text" id="name" th:field="*{name}" class="form-control" th:errorclass="field-error"/>
             <div class="field-error" th:errors="*{name}">이름 오류</div>
         </div>
 
         <div>
-            <label for="password">비밀번호</label>
+            <label for="password" th:text="#{join.password}">비밀번호</label>
             <input type="password" id="password" th:field="*{password}" class="form-control" th:errorclass="field-error" />
             <div class="field-error" th:errors="*{password}">비밀번호 오류</div>
         </div>
 
         <div>
-            <label for="phoneNumber">핸드폰 번호</label>
+            <label for="phoneNumber" th:text="#{join.phoneNumber}">핸드폰 번호</label>
             <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control" th:errorclass="field-error" />
             <div class="field-error" th:errors="*{phoneNumber}">핸드폰 번호 오류</div>
         </div>
