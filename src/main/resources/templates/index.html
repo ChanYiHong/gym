@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head th:replace="~{/layout/head :: common_head(~{::title}, ~{::link})}">
     <title>HCY GYM Main</title>
     <!-- Custom styles for this template -->
@@ -69,24 +69,22 @@
     <!-- Three columns of text below the carousel -->
     <div class="row">
       <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-
-        <h2>Heading</h2>
-        <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
+<!--        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>-->
+        <img class="bd-placeholder-img rounded-circle" width="140" height="140" th:src="@{/img/coach1.jpeg}">
+        <h2>이채린 강사님</h2>
+        <p>빈야사 / 힐링 테라피 요가 / 아디다스 요가 / 비트 요가 / 골반교정 요가 / 다이나믹 스트레칭 / 매트 & 소도구 필라테스 / 플라잉 베이직 ~ 마스터</p>
         <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
       <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-
-        <h2>Heading</h2>
-        <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second column.</p>
+        <img class="bd-placeholder-img rounded-circle" width="140" height="140" th:src="@{/img/coach2.png}">
+        <h2>최혜미 강사님</h2>
+        <p>플라잉 레벨 1,2 / 빈야사 / 필라테스 / 힐링요가 / 발레 필라테스 / 아디다스 / 교정</p>
         <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
       <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-
-        <h2>Heading</h2>
-        <p>And lastly this, the third column of representative placeholder content.</p>
+        <img class="bd-placeholder-img rounded-circle" width="140" height="140" th:src="@{/img/coach3.jpeg}">
+        <h2>박경란 강사님</h2>
+        <p>플라잉 요가 / 아쉬탕가 / 아이다스 / 비트요가 / 워킹요가 / 인사이드 플로우 / 인스프릿 / 빈야사</p>
         <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->
@@ -138,8 +136,6 @@
     <!-- /END THE FEATURETTES -->
 
   </div><!-- /.container -->
-
-
   <!-- FOOTER -->
   <footer th:replace="~{/layout/footer :: footer}">
   </footer>
