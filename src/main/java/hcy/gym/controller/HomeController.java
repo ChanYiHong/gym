@@ -15,7 +15,6 @@ public class HomeController {
 
     @ModelAttribute("memberResponseDTO")
     public MemberResponseDTO memberResponseDTO(@Login MemberResponseDTO memberResponseDTO) {
-        log.info("홈 : {}", memberResponseDTO);
         return memberResponseDTO;
     }
 
