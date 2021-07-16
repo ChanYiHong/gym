@@ -13,8 +13,6 @@ public interface MemberShipService {
     // 멤버쉽 정보 및 결제화면용
     MemberShipResponseDTO getOne(Long id);
 
-
-
     default MemberShipResponseDTO entityToDTO(MemberShip memberShip) {
         return MemberShipResponseDTO.builder()
                 .id(memberShip.getId())

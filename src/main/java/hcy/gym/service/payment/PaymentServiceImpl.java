@@ -5,6 +5,7 @@ import hcy.gym.domain.MemberShip;
 import hcy.gym.domain.Payment;
 import hcy.gym.dto.member.MemberResponseDTO;
 import hcy.gym.dto.membership.MemberShipRegisterDTO;
+import hcy.gym.dto.payment.PaymentInfoDTO;
 import hcy.gym.repository.member.MemberRepository;
 import hcy.gym.repository.membership.MemberShipRepository;
 import hcy.gym.repository.payment.PaymentRepository;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
@@ -39,6 +41,23 @@ public class PaymentServiceImpl implements PaymentService{
         paymentRepository.save(payment);
 
         return payment.getId();
+
+    }
+
+    /** 회원 정보창에 회원 멤버쉽 상태 표현 **/
+    @Override
+    public PaymentInfoDTO getByMemberId(Long memberId) {
+
+        List<Object[]> result = paymentRepository.findByMemberId(memberId);
+
+        Payment payment = (Payment) result.get(0)[0];
+        MemberShip memberShip = (MemberShip) result.get(0)[1];
+
+        PaymentInfoDTO paymentInfoDTO = entityToDTO(payment, memberShip);
+
+        paymentInfoDTO.calculateTime(memberShip.getMonth());
+
+        return paymentInfoDTO;
 
     }
 }

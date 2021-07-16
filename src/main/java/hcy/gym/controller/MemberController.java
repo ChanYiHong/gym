@@ -1,14 +1,20 @@
 package hcy.gym.controller;
 
+import hcy.gym.argumentresolver.Login;
+import hcy.gym.dto.member.MemberResponseDTO;
 import hcy.gym.dto.member.MemberSaveDTO;
+import hcy.gym.dto.payment.PaymentInfoDTO;
 import hcy.gym.service.member.MemberService;
+import hcy.gym.service.payment.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -17,6 +23,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PaymentService paymentService;
+
+    @ModelAttribute("memberResponseDTO")
+    public MemberResponseDTO memberResponseDTO(@Login MemberResponseDTO loginMember) {
+        return loginMember;
+    }
 
     @GetMapping("/join")
     public String joinForm(@ModelAttribute MemberSaveDTO memberSaveDTO) {
@@ -52,6 +64,19 @@ public class MemberController {
         log.info("회원 가입 POST 요청 : {}", memberSaveDTO);
         memberService.join(memberSaveDTO);
         return "redirect:/";
+    }
+
+    // 회원 정보 보기
+    @GetMapping("/members/{id}")
+    public String memberInfo(@PathVariable("id") Long memberId, Model model) {
+
+        log.info("회원 정보 조회 : {}", memberId);
+
+        PaymentInfoDTO paymentInfo = paymentService.getByMemberId(memberId);
+        model.addAttribute("payment", paymentInfo);
+
+        return "members/info";
+
     }
 
 }
