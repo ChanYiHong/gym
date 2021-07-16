@@ -7,10 +7,10 @@ public enum PaymentPlan {
 
     TEMPORARY("일시불"), TWO_M("2개월 할부"), THREE_M("3개월 할부");
 
-    private final String wayName;
+    private final String description;
 
-    PaymentPlan(String wayName) {
-        this.wayName = wayName;
+    PaymentPlan(String description) {
+        this.description = description;
     }
 
 }

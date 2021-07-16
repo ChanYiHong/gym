@@ -7,9 +7,9 @@ public enum PaymentWay {
 
     CARD("카드"), CASH("현금");
 
-    private final String name;
+    private final String description;
 
-    PaymentWay(String name) {
-        this.name = name;
+    PaymentWay(String description) {
+        this.description = description;
     }
 }

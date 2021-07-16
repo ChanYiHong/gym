@@ -7,7 +7,6 @@ import org.springframework.format.annotation.NumberFormat;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 public class MemberShipResponseDTO {
 
     private Long id;

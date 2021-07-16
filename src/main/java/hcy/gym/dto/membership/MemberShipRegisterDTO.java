@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 public class MemberShipRegisterDTO {
 
     private PaymentPlan paymentPlan;

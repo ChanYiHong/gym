@@ -9,7 +9,6 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {"memberShip"})
 public class Member extends BaseEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +21,5 @@ public class Member extends BaseEntity{
     private String password;
 
     private String phoneNumber;
-
-    // 회원권 결제 정보 (1:1) 연관 관계 주인은 회원.
-    @OneToOne(fetch = FetchType.LAZY)
-    private Payment payment;
-
-
 
 }
