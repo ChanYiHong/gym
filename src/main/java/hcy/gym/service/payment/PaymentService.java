@@ -28,7 +28,8 @@ public interface PaymentService {
                 .name(memberShip.getName())
                 .paymentPlan(payment.getPaymentPlan())
                 .paymentWay(payment.getPaymentWay())
-                .startTime(payment.getCreatedDate())
+                .price(memberShip.getPrice())
+                .startTime(payment.getCreatedDate().toLocalDate())
                 .build();
     }
 

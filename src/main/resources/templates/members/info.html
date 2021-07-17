@@ -36,6 +36,10 @@
         <input class="form-control title" id="pname" th:value="${payment.name}" readonly>
     </div>
     <div class="form-group">
+        <label for="price">가격</label>
+        <input class="form-control" id="price" th:value="${payment.price}" readonly>
+    </div>
+    <div class="form-group">
         <label for="pplan">할부</label>
         <input class="form-control" id="pplan" th:value="${payment.paymentPlan.getDescription()}" readonly>
     </div>
