@@ -50,6 +50,12 @@ public class PaymentServiceImpl implements PaymentService{
 
         List<Object[]> result = paymentRepository.findByMemberId(memberId);
 
+        // 만약 가입한 payment (결제) 가 없을경우!
+        if (result.size() == 0) {
+            log.info("가입한 멤버쉽이 없습니다...");
+            return null;
+        }
+
         Payment payment = (Payment) result.get(0)[0];
         MemberShip memberShip = (MemberShip) result.get(0)[1];
 
