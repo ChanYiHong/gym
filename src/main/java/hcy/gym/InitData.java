@@ -3,6 +3,7 @@ package hcy.gym;
 import hcy.gym.domain.*;
 import hcy.gym.repository.classes.ClassesRepository;
 import hcy.gym.repository.classtype.ClassTypeRepository;
+import hcy.gym.repository.info.InfoRepository;
 import hcy.gym.repository.member.MemberRepository;
 import hcy.gym.repository.membership.MemberShipRepository;
 import hcy.gym.repository.teacher.TeacherRepository;
@@ -28,6 +29,8 @@ public class InitData {
 
         initDataService.initClassTypeAndTeacher();
 //        initDataService.initClassTypeAndTeacherAndClasses();
+
+        initDataService.initInfo();
     }
 
     @Component
@@ -40,10 +43,9 @@ public class InitData {
         private final TeacherRepository teacherRepository;
         private final ClassTypeRepository classTypeRepository;
         private final ClassesRepository classesRepository;
+        private final InfoRepository infoRepository;
 
-        @Autowired
-        private EntityManager em;
-
+        private final EntityManager em;
 
         @Transactional
         void initMember() {
@@ -653,6 +655,25 @@ public class InitData {
             classesRepository.save(금7);
 
 
+
+        }
+
+        @Transactional
+        void initInfo() {
+            infoRepository.save(Info.builder()
+            .name("비키니요가").build());
+
+            infoRepository.save(Info.builder()
+                    .name("벨런스교정 요가").build());
+
+            infoRepository.save(Info.builder()
+                    .name("테라피 요가").build());
+
+            infoRepository.save(Info.builder()
+                    .name("힐링+교정 요가").build());
+
+            infoRepository.save(Info.builder()
+                    .name("사이드코어 요가").build());
 
         }
 
