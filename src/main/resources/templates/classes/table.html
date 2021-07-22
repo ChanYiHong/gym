@@ -10,14 +10,35 @@
 <div class="container">
 
     <hr class="my-4">
+    <hr class="my-4">
+
+    <h4 class="mb-3">내 멤버쉽 정보</h4>
+    <div th:if="${payment != null}">
+        <div class="form-group">
+            <label for="pname">멤버쉽 이름</label>
+            <input class="form-control title" id="pname" th:value="${payment.name}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="start">시작일</label>
+            <input class="form-control" id="start" th:value="${payment.startTime}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="end">종료일</label>
+            <input class="form-control" id="end" th:value="${payment.endTime}" readonly>
+        </div>
+    </div>
+
+    <div th:if="${payment == null}">
+        <p>아직 멤버쉽을 가입하지 않았어요... </p>
+        <a href="/memberShips">가입하러 가기~</a>
+    </div>
+
+    <hr class="my-4">
 
     <div class="py-5 text-center">
         <h2>시간표</h2>
     </div>
 
-    <div class="timetable-img text-center">
-        <img src="img/content/timetable.png" alt="">
-    </div>
     <div class="table-responsive">
         <table class="table table-bordered text-center">
             <thead>
@@ -33,182 +54,51 @@
             <tbody>
             <tr>
                 <td class="align-middle">09:30am</td>
-                <td th:each="class : ${one}">
+                <td th:each="class : ${one}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
                     <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
+<!--                    <div class="time" data-th-attr="data-name=${class.name}"></div>-->
                     <div class="margin-10px-top font-size14">9:30-10:20</div>
 <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
                 </td>
-<!--                <td>-->
-<!--                    <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">Dance</span>-->
-<!--                    <div class="margin-10px-top font-size14">9:00-10:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Yoga</span>-->
-<!--                    <div class="margin-10px-top font-size14">9:00-10:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Marta Healy</div>-->
-<!--                </td>-->
 
-<!--                <td>-->
-<!--                    <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Music</span>-->
-<!--                    <div class="margin-10px-top font-size14">9:00-10:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Dance</span>-->
-<!--                    <div class="margin-10px-top font-size14">9:00-10:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Art</span>-->
-<!--                    <div class="margin-10px-top font-size14">9:00-10:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Kate Alley</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>-->
-<!--                    <div class="margin-10px-top font-size14">9:00-10:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">James Smith</div>-->
-<!--                </td>-->
             </tr>
 
             <tr>
                 <td class="align-middle">10:35am</td>
-                <td th:each="class : ${two}">
+                <td th:each="class : ${two}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
                     <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">10:35-11:25</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
                 </td>
-<!--                <td>-->
-<!--                    <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Music</span>-->
-<!--                    <div class="margin-10px-top font-size14">10:00-11:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
-<!--                </td>-->
-<!--                <td class="bg-light-gray">-->
-
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Art</span>-->
-<!--                    <div class="margin-10px-top font-size14">10:00-11:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Kate Alley</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Yoga</span>-->
-<!--                    <div class="margin-10px-top font-size14">10:00-11:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Marta Healy</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>-->
-<!--                    <div class="margin-10px-top font-size14">10:00-11:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">James Smith</div>-->
-<!--                </td>-->
-<!--                <td class="bg-light-gray">-->
-
-<!--                </td>-->
             </tr>
 
             <tr>
                 <td class="align-middle">11:40am</td>
-                <td th:each="class : ${three}">
+                <td th:each="class : ${three}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
                     <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">11:40-12:30</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
                 </td>
-<!--                <td>-->
-<!--                    <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>-->
-<!--                    <div class="margin-10px-top font-size14">11:00-12:00</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>-->
-<!--                    <div class="margin-10px-top font-size14">11:00-12:00</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>-->
-<!--                    <div class="margin-10px-top font-size14">11:00-12:00</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>-->
-<!--                    <div class="margin-10px-top font-size14">11:00-12:00</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>-->
-<!--                    <div class="margin-10px-top font-size14">11:00-12:00</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Break</span>-->
-<!--                    <div class="margin-10px-top font-size14">11:00-12:00</div>-->
-<!--                </td>-->
+
             </tr>
 
             <tr>
                 <td class="align-middle">01:00pm</td>
-<!--                <td class="bg-light-gray">-->
-
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Art</span>-->
-<!--                    <div class="margin-10px-top font-size14">12:00-1:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Kate Alley</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Dance</span>-->
-<!--                    <div class="margin-10px-top font-size14">12:00-1:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Music</span>-->
-<!--                    <div class="margin-10px-top font-size14">12:00-1:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
-<!--                </td>-->
-<!--                <td class="bg-light-gray">-->
-
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Yoga</span>-->
-<!--                    <div class="margin-10px-top font-size14">12:00-1:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Marta Healy</div>-->
-<!--                </td>-->
             </tr>
 
             <tr>
                 <td class="align-middle">06:00pm</td>
-                <td th:each="class : ${four}">
+                <td th:each="class : ${four}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
                     <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">06:00-06:50</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
                 </td>
-<!--                <td>-->
-<!--                    <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>-->
-<!--                    <div class="margin-10px-top font-size14">1:00-2:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">James Smith</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Music</span>-->
-<!--                    <div class="margin-10px-top font-size14">1:00-2:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
-<!--                </td>-->
-<!--                <td class="bg-light-gray">-->
 
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">English</span>-->
-<!--                    <div class="margin-10px-top font-size14">1:00-2:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">James Smith</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Yoga</span>-->
-<!--                    <div class="margin-10px-top font-size14">1:00-2:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Marta Healy</div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16  xs-font-size13">Music</span>-->
-<!--                    <div class="margin-10px-top font-size14">1:00-2:00</div>-->
-<!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
-<!--                </td>-->
             </tr>
 
             <tr>
                 <td class="align-middle">07:00pm</td>
-                <td th:each="class : ${five}">
+                <td th:each="class : ${five}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
                     <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">07:00-07:50</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
@@ -217,7 +107,7 @@
 
             <tr>
                 <td class="align-middle">08:00pm</td>
-                <td th:each="class : ${six}">
+                <td th:each="class : ${six}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
                     <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">08:00-08:50</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
@@ -226,7 +116,7 @@
 
             <tr>
                 <td class="align-middle">09:00pm</td>
-                <td th:each="class : ${seven}">
+                <td th:each="class : ${seven}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
                     <span class="bg-orange padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">09:00-09:50</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
@@ -235,8 +125,103 @@
             </tbody>
         </table>
     </div>
-</div>
 
+    <h4 class="mb-3">선택 현황</h4>
+    <div class="select">
+        
+    </div>
+</div>
 </body>
+<script th:inline="javascript">
+
+    $(document).ready(function(){
+
+        // 시간표 클릭 여부를 담을 map 자료구조.
+        let map = new Map();
+
+        // 선택 현황을 나타내줄 div.
+        let select = $(".select");
+
+        // 멤버쉽 가입 여부.. 만약 가입 안되어있으면 alert를 낼 예정.
+        let payment = [[${payment}]];
+
+        // 멤버쉽 주에 몇 번인지 확인.
+        let week = [[${payment.week}]];
+
+        // 현재 선택된 클래스 수.
+        let classNum = 0;
+
+        // == 시간표 클릭 시. Onclick EventListener... == //
+       $(".time").on("click", function() {
+
+            if (isMemberShipRegister() == false) {
+                return;
+            }
+
+            if (isWeekOver() == true) {
+                return;
+            }
+           
+            var classId = $(this).data("id");
+            var className = $(this).data("name");
+
+            console.log(classId);
+            console.log(className);
+
+            // 만약 클릭이 되어 있지 않은 시간표라면...
+            if (map.get(classId) == null) {
+
+                // 테두리 색 추가.
+                $(this).css("border", "5px solid red");
+
+                // 선택 현황에 추가.
+                select.append("<h2 id=" + classId + ">"+className+ " : " + classId + "</h2>");
+
+                // 클릭 여부 map에 추가.
+                map.set(classId, className);
+
+                // 선택된 class수 추가.
+                classNum = classNum + 1;
+
+            }
+            // 이미 클릭이 되어 있는 시간표라면...
+            else {
+
+                // 테두리 색 삭제.
+                $(this).css("border", "");
+
+                // 선택 현황에서 제거.
+                $("#" + classId).remove();
+
+                // 클릭 여부 map에서 제거.
+                map.delete(classId);
+
+                // 선택된 class수 제거.
+                classNum = classNum - 1;
+
+            }
+
+       });
+
+       // 멤버쉽 가입 여부 판정. 없으면 alert 메세지.
+       function isMemberShipRegister() {
+            if (payment == null) {
+                alert("멤버쉽을 먼저 등록해주세요!");
+                return false;
+            }
+            return true;
+       }
+
+       // 주에 선택 개수 초과하면 alert..
+       function isWeekOver() {
+            if(week == classNum) {
+                alert("회원님은 한 주에 최대 " + classNum + "개의 수업만 등록 가능합니다!");
+                return true;
+            }
+            return false;
+       }
+
+    });
+</script>
 <footer th:replace="~{/layout/footer :: footer}"></footer>
 </html>

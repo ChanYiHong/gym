@@ -10,6 +10,7 @@ import java.time.LocalTime;
 @Builder
 public class ClassesResponseDTO {
 
+    private Long id;
     private String name;
     private LocalTime startTime;
     private LocalTime endTime;

@@ -12,6 +12,7 @@ public interface ClassesService {
 
     default ClassesResponseDTO entityToDTO(Classes classes) {
         return ClassesResponseDTO.builder()
+                .id(classes.getId())
                 .name(classes.getName())
                 .startTime(classes.getStartTime())
                 .endTime(classes.getEndTime())

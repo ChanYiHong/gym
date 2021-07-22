@@ -40,6 +40,9 @@ public class PaymentInfoDTO {
     @NumberFormat(pattern = "###,###")
     private Integer price;
 
+    // 한주에 몇번인지..
+    private Integer week;
+
     //== 남은 시간 계산 메서드 ==/
     public void calculateTime(Integer month) {
         // 현재 시간

@@ -30,6 +30,7 @@ public interface PaymentService {
                 .paymentWay(payment.getPaymentWay())
                 .price(memberShip.getPrice())
                 .startTime(payment.getCreatedDate().toLocalDate())
+                .week(memberShip.getWeek())
                 .build();
     }
 
