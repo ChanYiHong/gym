@@ -13,7 +13,7 @@
     <hr class="my-4">
 
     <h4 class="mb-3">내 멤버쉽 정보</h4>
-    <div th:if="${payment != null}">
+    <div th:if="${payment} != null">
         <div class="form-group">
             <label for="pname">멤버쉽 이름</label>
             <input class="form-control title" id="pname" th:value="${payment.name}" readonly>
@@ -26,11 +26,6 @@
             <label for="end">종료일</label>
             <input class="form-control" id="end" th:value="${payment.endTime}" readonly>
         </div>
-    </div>
-
-    <div th:if="${payment == null}">
-        <p>아직 멤버쉽을 가입하지 않았어요... </p>
-        <a href="/memberShips">가입하러 가기~</a>
     </div>
 
     <hr class="my-4">
@@ -136,14 +131,16 @@
 
     $(document).ready(function(){
 
+        // 멤버쉽 가입 여부.. 만약 가입 안되어있으면 alert를 낼 예정.
+        let payment = [[${payment}]];
+
+        isMemberShipRegister();
+
         // 시간표 클릭 여부를 담을 map 자료구조.
         let map = new Map();
 
         // 선택 현황을 나타내줄 div.
         let select = $(".select");
-
-        // 멤버쉽 가입 여부.. 만약 가입 안되어있으면 alert를 낼 예정.
-        let payment = [[${payment}]];
 
         // 멤버쉽 주에 몇 번인지 확인.
         let week = [[${payment.week}]];
@@ -153,14 +150,6 @@
 
         // == 시간표 클릭 시. Onclick EventListener... == //
        $(".time").on("click", function() {
-
-            if (isMemberShipRegister() == false) {
-                return;
-            }
-
-            if (isWeekOver() == true) {
-                return;
-            }
            
             var classId = $(this).data("id");
             var className = $(this).data("name");
@@ -207,13 +196,13 @@
        function isMemberShipRegister() {
             if (payment == null) {
                 alert("멤버쉽을 먼저 등록해주세요!");
-                return false;
+                window.location.href = "/memberShips";
             }
-            return true;
        }
 
        // 주에 선택 개수 초과하면 alert..
        function isWeekOver() {
+
             if(week == classNum) {
                 alert("회원님은 한 주에 최대 " + classNum + "개의 수업만 등록 가능합니다!");
                 return true;
