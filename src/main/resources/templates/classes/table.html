@@ -32,24 +32,30 @@
 
     <div class="py-5 text-center">
         <h2>시간표</h2>
+        <h4 th:text="|현재 날짜 : ${year} 년 ${month} 월 ${day} 일 ${hour} 시 ${minute} 분|" style="text-align: right;"></h4>
     </div>
+
+    <select class="form-select" onchange="javascript:initWeek(this.value)">
+        <option value="this" selected>[[${thisWeekNum}]] 주차</opthon>
+        <option value="next">[[${nextWeekNum}]] 주차</option>
+    </select>
 
     <div class="table-responsive">
         <table class="table table-bordered text-center">
             <thead>
             <tr class="bg-light-gray">
                 <th class="text-uppercase">Time</th>
-                <th class="text-uppercase">Monday</th>
-                <th class="text-uppercase">Tuesday</th>
-                <th class="text-uppercase">Wednesday</th>
-                <th class="text-uppercase">Thursday</th>
-                <th class="text-uppercase">Friday</th>
+                <th class="text-uppercase mon" th:text="|${thisWeek.get(1).getDate()} 월|">Monday</th>
+                <th class="text-uppercase tue" th:text="|${thisWeek.get(2).getDate()} 화|">Tuesday</th>
+                <th class="text-uppercase wed" th:text="|${thisWeek.get(3).getDate()} 수|">Wednesday</th>
+                <th class="text-uppercase thu" th:text="|${thisWeek.get(4).getDate()} 목|">Thursday</th>
+                <th class="text-uppercase fri" th:text="|${thisWeek.get(5).getDate()} 금|">Friday</th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <td class="align-middle">09:30am</td>
-                <td th:each="class : ${one}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
+                <td th:each="class : ${one}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}">
                     <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
 <!--                    <div class="time" data-th-attr="data-name=${class.name}"></div>-->
                     <div class="margin-10px-top font-size14">9:30-10:20</div>
@@ -60,7 +66,7 @@
 
             <tr>
                 <td class="align-middle">10:35am</td>
-                <td th:each="class : ${two}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
+                <td th:each="class : ${two}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}">
                     <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">10:35-11:25</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
@@ -69,7 +75,7 @@
 
             <tr>
                 <td class="align-middle">11:40am</td>
-                <td th:each="class : ${three}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
+                <td th:each="class : ${three}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}">
                     <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">11:40-12:30</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
@@ -83,7 +89,7 @@
 
             <tr>
                 <td class="align-middle">06:00pm</td>
-                <td th:each="class : ${four}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
+                <td th:each="class : ${four}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}">
                     <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">06:00-06:50</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
@@ -93,7 +99,7 @@
 
             <tr>
                 <td class="align-middle">07:00pm</td>
-                <td th:each="class : ${five}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
+                <td th:each="class : ${five}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}">
                     <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">07:00-07:50</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
@@ -102,7 +108,7 @@
 
             <tr>
                 <td class="align-middle">08:00pm</td>
-                <td th:each="class : ${six}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
+                <td th:each="class : ${six}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}">
                     <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">08:00-08:50</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
@@ -111,7 +117,7 @@
 
             <tr>
                 <td class="align-middle">09:00pm</td>
-                <td th:each="class : ${seven}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}">
+                <td th:each="class : ${seven}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}">
                     <span class="bg-orange padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">09:00-09:50</div>
                     <!--                    <div class="font-size13 text-light-gray">Ivana Wong</div>-->
@@ -129,18 +135,19 @@
 </body>
 <script th:inline="javascript">
 
+    let map = new Map();
+    let select = $(".select");
+
     $(document).ready(function(){
 
         // 멤버쉽 가입 여부.. 만약 가입 안되어있으면 alert를 낼 예정.
         let payment = [[${payment}]];
 
-        isMemberShipRegister();
-
         // 시간표 클릭 여부를 담을 map 자료구조.
-        let map = new Map();
+        // let map = new Map();
 
         // 선택 현황을 나타내줄 div.
-        let select = $(".select");
+        // let select = $(".select");
 
         // 멤버쉽 주에 몇 번인지 확인.
         let week = [[${payment.week}]];
@@ -153,6 +160,8 @@
            
             var classId = $(this).data("id");
             var className = $(this).data("name");
+            var startTime = $(this).data("start");
+            var endTime = $(this).data("end");
 
             console.log(classId);
             console.log(className);
@@ -160,11 +169,16 @@
             // 만약 클릭이 되어 있지 않은 시간표라면...
             if (map.get(classId) == null) {
 
+                // 이미 한주에 등록할 수 있는 수를 넘었다면..
+                if (isWeekOver() == true) {
+                    return;
+                }
+
                 // 테두리 색 추가.
                 $(this).css("border", "5px solid red");
 
                 // 선택 현황에 추가.
-                select.append("<h2 id=" + classId + ">"+className+ " : " + classId + "</h2>");
+                select.append("<h2 id=" + classId + ">" + startTime + " ~ " + endTime + " : " + className + "</h2>");
 
                 // 클릭 여부 map에 추가.
                 map.set(classId, className);
@@ -192,14 +206,6 @@
 
        });
 
-       // 멤버쉽 가입 여부 판정. 없으면 alert 메세지.
-       function isMemberShipRegister() {
-            if (payment == null) {
-                alert("멤버쉽을 먼저 등록해주세요!");
-                window.location.href = "/memberShips";
-            }
-       }
-
        // 주에 선택 개수 초과하면 alert..
        function isWeekOver() {
 
@@ -211,6 +217,30 @@
        }
 
     });
+
+    // week onchange event listener
+    function initWeek(weekInfo) {
+
+        console.log(weekInfo);
+        // 주 를 변경하면 지금까지 선택된 강좌를 다 취소시킴.
+        select.html('');
+        map.clear();
+        
+        if(weekInfo == "this") {
+            $(".mon").html('<th class="text-uppercase mon">[[${thisWeek.get(1).getDate()}]] 월</th>');
+            $(".tue").html('<th class="text-uppercase tue">[[${thisWeek.get(2).getDate()}]] 화</th>');
+            $(".wed").html('<th class="text-uppercase wed">[[${thisWeek.get(3).getDate()}]] 수</th>');
+            $(".thu").html('<th class="text-uppercase thu">[[${thisWeek.get(4).getDate()}]] 목</th>');
+            $(".fri").html('<th class="text-uppercase fri">[[${thisWeek.get(5).getDate()}]] 금</th>');
+        } else {
+            $(".mon").html('<th class="text-uppercase mon">[[${nextWeek.get(1).getDate()}]] 월</th>');
+            $(".tue").html('<th class="text-uppercase tue">[[${nextWeek.get(1).getDate()}]] 화</th>');
+            $(".wed").html('<th class="text-uppercase wed">[[${nextWeek.get(1).getDate()}]] 수</th>');
+            $(".thu").html('<th class="text-uppercase thu">[[${nextWeek.get(1).getDate()}]] 목</th>');
+            $(".fri").html('<th class="text-uppercase fri">[[${nextWeek.get(1).getDate()}]] 금</th>');
+        }
+    }
+    
 </script>
 <footer th:replace="~{/layout/footer :: footer}"></footer>
 </html>
