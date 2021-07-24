@@ -135,8 +135,10 @@
 </body>
 <script th:inline="javascript">
 
-    let map = new Map();
+    let classMap = new Map();
+    let cssMap = new Map();
     let select = $(".select");
+    let classNum = 0;
 
     $(document).ready(function(){
 
@@ -152,8 +154,8 @@
         // 멤버쉽 주에 몇 번인지 확인.
         let week = [[${payment.week}]];
 
-        // 현재 선택된 클래스 수.
-        let classNum = 0;
+        // // 현재 선택된 클래스 수.
+        // let classNum = 0;
 
         // == 시간표 클릭 시. Onclick EventListener... == //
        $(".time").on("click", function() {
@@ -167,7 +169,9 @@
             console.log(className);
 
             // 만약 클릭이 되어 있지 않은 시간표라면...
-            if (map.get(classId) == null) {
+            if (classMap.get(classId) == null) {
+
+                console.log("new one");
 
                 // 이미 한주에 등록할 수 있는 수를 넘었다면..
                 if (isWeekOver() == true) {
@@ -176,12 +180,13 @@
 
                 // 테두리 색 추가.
                 $(this).css("border", "5px solid red");
+                cssMap.set(classId, $(this));
 
                 // 선택 현황에 추가.
                 select.append("<h2 id=" + classId + ">" + startTime + " ~ " + endTime + " : " + className + "</h2>");
 
                 // 클릭 여부 map에 추가.
-                map.set(classId, className);
+                classMap.set(classId, className);
 
                 // 선택된 class수 추가.
                 classNum = classNum + 1;
@@ -192,12 +197,13 @@
 
                 // 테두리 색 삭제.
                 $(this).css("border", "");
+                cssMap.delete(classId);
 
                 // 선택 현황에서 제거.
                 $("#" + classId).remove();
 
                 // 클릭 여부 map에서 제거.
-                map.delete(classId);
+                classMap.delete(classId);
 
                 // 선택된 class수 제거.
                 classNum = classNum - 1;
@@ -224,7 +230,16 @@
         console.log(weekInfo);
         // 주 를 변경하면 지금까지 선택된 강좌를 다 취소시킴.
         select.html('');
-        map.clear();
+        classMap.clear();
+        classNum = 0;
+
+        // css 삭제..
+        for (const [key, value] of cssMap.entries()) {
+            console.log(value);
+            value.css("border", "");
+        }
+        cssMap.clear();
+                
         
         if(weekInfo == "this") {
             $(".mon").html('<th class="text-uppercase mon">[[${thisWeek.get(1).getDate()}]] 월</th>');
