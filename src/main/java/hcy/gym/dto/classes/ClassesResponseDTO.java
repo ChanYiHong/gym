@@ -20,4 +20,6 @@ public class ClassesResponseDTO {
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
+    private String teacher;
+
 }

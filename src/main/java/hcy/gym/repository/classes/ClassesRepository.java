@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ClassesRepository extends JpaRepository<Classes, Long> {
 
-    @Query("select c from Classes c where c.startTime = :startTime")
-    List<Classes> findByStartTime(@Param("startTime") LocalTime startTime);
+    @Query("select c, t from Classes c left join c.teacher t where c.startTime = :startTime")
+    List<Object[]> findByStartTime(@Param("startTime") LocalTime startTime);
 
 }
