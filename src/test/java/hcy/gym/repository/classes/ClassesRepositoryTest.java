@@ -16,13 +16,13 @@ class ClassesRepositoryTest {
     @Autowired
     ClassesRepository classesRepository;
 
-    @Test
-    void findByStartTimeTest() {
-        List<Classes> result = classesRepository.findByStartTime(LocalTime.of(9, 30));
-
-        for (Classes classes : result) {
-            System.out.println(classes);
-        }
-    }
+//    @Test
+//    void findByStartTimeTest() {
+//        List<Classes> result = classesRepository.findByStartTime(LocalTime.of(9, 30));
+//
+//        for (Classes classes : result) {
+//            System.out.println(classes);
+//        }
+//    }
 
 }

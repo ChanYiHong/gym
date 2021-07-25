@@ -1,5 +1,6 @@
 package hcy.gym.dto.classes;
 
+import hcy.gym.domain.Week;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,5 +22,8 @@ public class ClassesResponseDTO {
     private LocalTime endTime;
 
     private String teacher;
+
+    // 요일
+    private String day;
 
 }

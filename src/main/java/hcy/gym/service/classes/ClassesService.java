@@ -17,6 +17,7 @@ public interface ClassesService {
                 .name(classes.getName())
                 .startTime(classes.getStartTime())
                 .endTime(classes.getEndTime())
+                .day(classes.getWeek().getName())
                 .teacher(teacher.getName())
                 .build();
     }

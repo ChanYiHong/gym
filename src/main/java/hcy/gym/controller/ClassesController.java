@@ -85,35 +85,57 @@ public class ClassesController {
         model.addAttribute("minute", now.getMinute());
     }
 
+    /** 일요일 7, 월요일 1, 화요일 2 ,,,,
+     *  일요일이 숫자가 7이지만 같은 주임. 즉 일요일부터 월화수목금토 가 한주.. **/
     private void makeWeek(Model model) {
 
         LocalDate now = LocalDate.now();
 
         // 시간표 날짜 설정. 현재 날짜 기준으로 이번주, 다음주만 가능하게
-        WeekFields weekFields = WeekFields.of(Locale.KOREA);
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
         // 몇 주차 인지..
         int weekNum = now.get(weekFields.weekOfWeekBasedYear());
 
         // 이번주 계산.
         int dayOfWeek = now.getDayOfWeek().getValue();
-        LocalDate firstDayOfWeek = now.minusDays(dayOfWeek);
+
 
         List<WeekInfo> thisWeek = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            thisWeek.add(new WeekInfo(firstDayOfWeek.plusDays(i)));
+        // 일요일 자체가 한주의 첫 일임.
+        if (dayOfWeek == 7) {
+            for (int i = 0; i < 7; i++) {
+                thisWeek.add(new WeekInfo(now.plusDays(i)));
+            }
+        } else {
+            LocalDate firstDayOfWeek = now.minusDays(dayOfWeek);
+            for (int i = 0; i < 7; i++) {
+                thisWeek.add(new WeekInfo(firstDayOfWeek.plusDays(i)));
+            }
         }
 
+        log.info("===== 이번주 : {} =====", weekNum);
+        log.info("오늘은 ? {}", dayOfWeek);
         model.addAttribute("thisWeekNum", weekNum);
         model.addAttribute("thisWeek", thisWeek);
 
         // 다음주 계산.
-        LocalDate firstDayOfNextWeek = now.plusDays((7 - dayOfWeek) + 1);
+        LocalDate firstDayOfNextWeek;
+
+        // 일요일
+        if (dayOfWeek == 7) {
+            firstDayOfNextWeek = now.plusDays(7);
+        } else {
+            firstDayOfNextWeek = now.plusDays((7 - dayOfWeek));
+        }
         int nextWeekNum = firstDayOfNextWeek.get(weekFields.weekOfWeekBasedYear());
+
         List<WeekInfo> nextWeek = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             nextWeek.add(new WeekInfo(firstDayOfNextWeek.plusDays(i)));
         }
 
+        log.info("===== 다음주 : {} =====", nextWeekNum);
+        log.info("===== 다음주 첫날은? : {} ====", firstDayOfNextWeek);
         model.addAttribute("nextWeekNum", nextWeekNum);
         model.addAttribute("nextWeek", nextWeek);
     }
