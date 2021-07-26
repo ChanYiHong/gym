@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/", "/css/**", "/img/**", "/js/**", "/*.ico"
-                        , "/error", "/login", "/join", "/memberships", "/infoList");
+                        , "/error", "/login", "/join", "/memberships", "/infoList", "/reservations/api/**");
 
         registry.addInterceptor(new MemberShipCheckInterceptor(paymentService))
                 .order(2)

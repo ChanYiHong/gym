@@ -130,9 +130,21 @@
     <div class="select">
         
     </div>
+    <button class="reserve btn btn-primary">예약하기</button>
 </div>
 </body>
 <script th:inline="javascript">
+
+    class ClassInfos {
+        constructor(classId, year, month, day, hour, minute) {
+            this.classId = classId;
+            this.year = year;
+            this.month = month;
+            this.day = day;
+            this.hour = hour;
+            this.minute = minute;
+        }
+    }
 
     // 시간표 클릭 여부를 담을 map 자료구조.
     let classMap = new Map();
@@ -142,6 +154,9 @@
     let select = $(".select");
     // 현재 선택된 클래스 수.
     let classNum = 0;
+
+    // 시간표 최종 예약 정보 담는 리스트.
+    let classInfoList = new Array();
 
     // 초기 날짜.
     let mon = [[${thisWeek.get(1).getDate()}]];
@@ -185,10 +200,10 @@
                     return;
                 }
 
-                // if (isTimeOver(dayOfWeek, startTime) == true) {
-                //     alert("이미 완료된 강의입니다. 다른 강의를 예약해 주세요.");
-                //     return;
-                // }
+                if (isTimeOver(dayOfWeek, startTime) == true) {
+                    alert("이미 완료된 강의입니다. 다른 강의를 예약해 주세요.");
+                    return;
+                }
 
                 // 테두리 색 추가.
                 $(this).css("border", "5px solid red");
@@ -199,6 +214,11 @@
 
                 // 클릭 여부 map에 추가.
                 classMap.set(classId, className);
+
+                // 수업 최종 예약 정보 리스트에 추가.
+                var dateInfo = splitDate(dayOfWeek, startTime);
+                classInfoList.push(new ClassInfos(classId, dateInfo[0], dateInfo[1]
+                            ,dateInfo[2], dateInfo[3], dateInfo[4]));
 
                 // 선택된 class수 추가.
                 classNum = classNum + 1;
@@ -217,10 +237,40 @@
                 // 클릭 여부 map에서 제거.
                 classMap.delete(classId);
 
+                // 수업 최종 예약 정보 리스트에서 제거..
+                findClassAndDelete(classId);
+
                 // 선택된 class수 제거.
                 classNum = classNum - 1;
 
             }
+
+       });
+
+       $(".reserve").on("click", function(){
+
+            // 보내야 할 것. 년 월 일 시 분 classId
+            var data = {
+                "classInfoList" : classInfoList
+            }
+
+            jsonData = JSON.stringify(data);
+            console.log(jsonData);
+            
+            $.ajax({
+                url: "/reservations/api",
+                method: "POST",
+                data: jsonData,
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function() {
+                    $(location).attr('href', "/");
+                },
+                error: function(e) {
+                    alert("실패...ㅠ");
+                }
+            })
 
        });
 
@@ -234,8 +284,9 @@
             return false;
        }
 
-       // 이미 시간이 지나버린 강좌라면.. alert..
-       function isTimeOver(dayOfWeek, startTime) {
+       // mon, tue,, 같은 변수는 현재 String type으로 2021-07-25 이런식임
+       // 이걸 integer type으로 파싱해서 리턴하는 함수.
+       function splitDate(dayOfWeek, startTime) {
 
             var localTime;
 
@@ -258,6 +309,35 @@
             var year = parseInt(localTime[0]);
             var month = parseInt(localTime[1]);
             var day = parseInt(localTime[2]);
+
+            var times = startTime.split(":");
+            var hour = parseInt(times[0]);
+            var minute = parseInt(times[1]);
+
+
+            return [year, month, day, hour, minute];
+
+       }
+
+       function findClassAndDelete(classId) {
+            var len = classInfoList.length;
+
+            for (var i = 0; i < len; i++) {
+                if (classInfoList[i].classId == classId) {
+                    classInfoList.splice(i, 1);
+                }
+            }
+       }
+
+       // 이미 시간이 지나버린 강좌라면.. alert.. 
+       // dayOfWeek은 요일 (요일별로 년월일 정보를 가지고 있음. 위에 전역변수로 선언됨), startTime 은 강좌의 시작시간.
+       function isTimeOver(dayOfWeek, startTime) {
+
+            var dateInfo = splitDate(dayOfWeek, startTime);
+
+            var year = dateInfo[0];
+            var month = dateInfo[1];
+            var day = dateInfo[2];
 
             var curYear = [[${year}]];
             var curMonth = [[${month}]];
@@ -286,21 +366,31 @@
                 return true;
             }
 
-            // 시간비교..
+            // 만약 년월일 다 똑같으면 시간비교..
 
-            var times = startTime.split(":");
-            var hour = times[0];
-            var minute = times[1];
+            if (year == curYear && month == curMonth && day == curDay) {
 
-            var curHour = [[${hour}]];
-            var curMinute = [[${minute}]];
+                var hour = dateInfo[3];
+                var minute = dateInfo[4];
 
-            if (hour < curHour) {
-                return true;
-            }
+                var curHour = [[${hour}]];
+                var curMinute = [[${minute}]];
 
-            if (minute < curMinute) {
-                return true;
+                console.log("시간표 시 : " + hour);
+                console.log("시간표 분 : " + minute);
+
+                console.log("현재 시 : " + curHour);
+                console.log("현재 분 : " + curMinute);
+
+                if (hour < curHour) {
+                    return true;
+                }
+
+                if (hour == curHour) {
+                    if (minute < curMinute) {
+                        return true;
+                    }
+                }
             }
 
             return false;
@@ -317,6 +407,7 @@
         select.html('');
         classMap.clear();
         classNum = 0;
+        classInfoList = new Array();
 
         // css 삭제..
         for (const [key, value] of cssMap.entries()) {

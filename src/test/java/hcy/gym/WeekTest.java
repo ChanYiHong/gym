@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
 
@@ -36,7 +37,6 @@ public class WeekTest {
 
         int tomorrowValue = tomorrow.getDayOfWeek().getValue();
         System.out.println("내일 요일 숫자로 : " + tomorrowValue);
-
 
     }
 
