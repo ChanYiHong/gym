@@ -3,7 +3,9 @@ package hcy.gym.service.reservation;
 import hcy.gym.domain.Classes;
 import hcy.gym.domain.Member;
 import hcy.gym.domain.Reservation;
+import hcy.gym.domain.Teacher;
 import hcy.gym.dto.reservation.ReservationRequestDTO;
+import hcy.gym.dto.reservation.ReservationResponseDTO;
 import hcy.gym.repository.classes.ClassesRepository;
 import hcy.gym.repository.member.MemberRepository;
 import hcy.gym.repository.reservation.ReservationRepository;
@@ -48,6 +50,17 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservations.stream()
                 .forEach(reservationRepository::save);
+
+    }
+
+    @Override
+    public List<ReservationResponseDTO> getListByMemberId(Long memberId) {
+
+        log.info("findReservationByMemberId : {}", memberId);
+
+        List<Object[]> result = reservationRepository.findByMemberId(memberId);
+
+        return result.stream().map(objects -> entityToDTO((Reservation) objects[0], (Classes) objects[1])).collect(Collectors.toList());
 
     }
 }

@@ -64,6 +64,15 @@
         <a href="/memberShips">가입하러 가기~</a>
     </div>
 
+    <div th:if="${reservations != null}" th:each="reservation : ${reservations}">
+        <h4>[[${reservation.year}]]년 [[${reservation.month}]]월 [[${reservation.day}]]일 [[${reservation.startTime}]] ~ [[${reservation.endTime}]] [[${reservation.dayOfWeek}]]</h4>
+    </div>
+
+    <div th:if="${reservations == null}">
+        <p>예약된 수업이 없어요...</p>
+        <a href="/classes">예약하러 가기~</a>
+    </div>
+
 </div>
 </body>
 <footer th:replace="~{/layout/footer :: footer}"></footer>
