@@ -26,4 +26,10 @@ public class ClassesResponseDTO {
     // 요일
     private String day;
 
+    // 정원
+    private Integer maxMemberNumber;
+
+    // 현재 인원
+    private Integer curMemberNumber;
+
 }

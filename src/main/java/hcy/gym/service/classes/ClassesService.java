@@ -11,7 +11,7 @@ public interface ClassesService {
 
     List<ClassesResponseDTO> getByStartTime(LocalTime startTime);
 
-    default ClassesResponseDTO entityToDTO(Classes classes, Teacher teacher) {
+    default ClassesResponseDTO entityToDTO(Classes classes, Teacher teacher, Integer curMemberNumber) {
         return ClassesResponseDTO.builder()
                 .id(classes.getId())
                 .name(classes.getName())
@@ -19,6 +19,8 @@ public interface ClassesService {
                 .endTime(classes.getEndTime())
                 .day(classes.getWeek().getName())
                 .teacher(teacher.getName())
+                .maxMemberNumber(classes.getMaxMemberNumber())
+                .curMemberNumber(curMemberNumber)
                 .build();
     }
 

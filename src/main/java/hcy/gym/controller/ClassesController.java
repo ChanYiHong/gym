@@ -4,8 +4,10 @@ import hcy.gym.argumentresolver.Login;
 import hcy.gym.dto.classes.ClassesResponseDTO;
 import hcy.gym.dto.member.MemberResponseDTO;
 import hcy.gym.dto.payment.PaymentInfoDTO;
+import hcy.gym.dto.reservation.ReservationResponseDTO;
 import hcy.gym.service.classes.ClassesService;
 import hcy.gym.service.payment.PaymentService;
+import hcy.gym.service.reservation.ReservationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
@@ -33,6 +36,7 @@ public class ClassesController {
 
     private final ClassesService classesService;
     private final PaymentService paymentService;
+    private final ReservationService reservationService;
 
     @ModelAttribute("memberResponseDTO")
     public MemberResponseDTO memberResponseDTO(@Login MemberResponseDTO loginMember) {
@@ -55,6 +59,28 @@ public class ClassesController {
         makeWeek(model);
 
         return "classes/table";
+    }
+
+    @GetMapping("/modify")
+    public String modifyReservationForm(@Login MemberResponseDTO loginMember, Model model) {
+
+        makeClasses(model);
+
+        // 멤버쉽 결제 정보
+        PaymentInfoDTO paymentInfo = paymentService.getByMemberId(loginMember.getId());
+        model.addAttribute("payment", paymentInfo);
+
+        // 현재 날짜 정보
+        makeNowDate(model);
+
+        makeWeek(model);
+
+        // 현재 예약 선택 정보
+        List<ReservationResponseDTO> reservations = reservationService.getListByMemberId(loginMember.getId());
+        model.addAttribute("reservations", reservations);
+
+        return "classes/modify";
+
     }
 
     private void makeClasses(Model model) {

@@ -58,8 +58,7 @@
                 <td th:each="class : ${one}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}">
                     <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">9:30-10:20</div>
-                   <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
-                   <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
+                    <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
                 </td>
 
             </tr>
@@ -70,7 +69,6 @@
                     <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">10:35-11:25</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
-                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
             </tr>
 
@@ -80,7 +78,6 @@
                     <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">11:40-12:30</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
-                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
 
             </tr>
@@ -95,7 +92,6 @@
                     <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">06:00-06:50</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
-                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
 
             </tr>
@@ -106,7 +102,6 @@
                     <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">07:00-07:50</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
-                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
             </tr>
 
@@ -116,7 +111,6 @@
                     <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">08:00-08:50</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
-                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
             </tr>
 
@@ -126,7 +120,6 @@
                     <span class="bg-orange padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">09:00-09:50</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
-                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
             </tr>
             </tbody>
@@ -135,7 +128,7 @@
 
     <h4 class="mb-3">선택 현황</h4>
     <div class="select">
-        
+
     </div>
     <button class="reserve btn btn-primary">예약하기</button>
 </div>
@@ -174,6 +167,8 @@
 
     $(document).ready(function(){
 
+        initModify();
+
         // 멤버쉽 가입 여부.. 만약 가입 안되어있으면 alert를 낼 예정.
         let payment = [[${payment}]];
 
@@ -182,7 +177,7 @@
 
         // == 시간표 클릭 시. Onclick EventListener... == //
        $(".time").on("click", function() {
-           
+
             var classId = $(this).data("id");
             var className = $(this).data("name");
             var startTime = $(this).data("start");
@@ -263,7 +258,7 @@
 
             jsonData = JSON.stringify(data);
             console.log(jsonData);
-            
+
             $.ajax({
                 url: "/reservations/api",
                 method: "POST",
@@ -336,7 +331,7 @@
             }
        }
 
-       // 이미 시간이 지나버린 강좌라면.. alert.. 
+       // 이미 시간이 지나버린 강좌라면.. alert..
        // dayOfWeek은 요일 (요일별로 년월일 정보를 가지고 있음. 위에 전역변수로 선언됨), startTime 은 강좌의 시작시간.
        function isTimeOver(dayOfWeek, startTime) {
 
@@ -422,8 +417,8 @@
             value.css("border", "");
         }
         cssMap.clear();
-                
-        
+
+
         if(weekInfo == "this") {
             $(".mon").html('<th class="text-uppercase mon">[[${thisWeek.get(1).getDate()}]] 월</th>');
             $(".tue").html('<th class="text-uppercase tue">[[${thisWeek.get(2).getDate()}]] 화</th>');
@@ -452,7 +447,11 @@
 
         }
     }
-    
+
+    function initModify() {
+
+    }
+
 </script>
 <footer th:replace="~{/layout/footer :: footer}"></footer>
 </html>
