@@ -117,53 +117,75 @@ public class ClassesController {
 
         LocalDate now = LocalDate.now();
 
-        // 시간표 날짜 설정. 현재 날짜 기준으로 이번주, 다음주만 가능하게
+        // 토요일 이후면 다음주 꺼 예약 가능하게.
         WeekFields weekFields = WeekFields.of(Locale.getDefault());
+
         // 몇 주차 인지..
         int weekNum = now.get(weekFields.weekOfWeekBasedYear());
 
         // 이번주 계산.
         int dayOfWeek = now.getDayOfWeek().getValue();
 
+        List<WeekInfo> weeks = new ArrayList<>();
 
-        List<WeekInfo> thisWeek = new ArrayList<>();
-        // 일요일 자체가 한주의 첫 일임.
-        if (dayOfWeek == 7) {
-            for (int i = 0; i < 7; i++) {
-                thisWeek.add(new WeekInfo(now.plusDays(i)));
+        // 토요일 이후면 다음주 날짜로
+        if (dayOfWeek >= 6) {
+            // 다음주 계산.
+            LocalDate firstDayOfNextWeek = now;
+            // 토요일은 + 1, 일욜은 그 자체로 다음주 첫날임.
+            if (dayOfWeek == 6) {
+                firstDayOfNextWeek = now.plusDays(1);
             }
-        } else {
-            LocalDate firstDayOfWeek = now.minusDays(dayOfWeek);
+            int nextWeekNum = firstDayOfNextWeek.get(weekFields.weekOfWeekBasedYear());
             for (int i = 0; i < 7; i++) {
-                thisWeek.add(new WeekInfo(firstDayOfWeek.plusDays(i)));
+                weeks.add(new WeekInfo(firstDayOfNextWeek.plusDays(i)));
             }
         }
+        // 토요일 이전 이면 해당 주로 예약
+        else {
+            LocalDate firstDayOfWeek = now.minusDays(dayOfWeek);
+            for (int i = 0; i < 7; i++) {
+                weeks.add(new WeekInfo(firstDayOfWeek.plusDays(i)));
+            }
+        }
+
+//        // 일요일 자체가 한주의 첫 일임.
+//        if (dayOfWeek == 7) {
+//            for (int i = 0; i < 7; i++) {
+//                thisWeek.add(new WeekInfo(now.plusDays(i)));
+//            }
+//        } else {
+//            LocalDate firstDayOfWeek = now.minusDays(dayOfWeek);
+//            for (int i = 0; i < 7; i++) {
+//                thisWeek.add(new WeekInfo(firstDayOfWeek.plusDays(i)));
+//            }
+//        }
 
         log.info("===== 이번주 : {} =====", weekNum);
         log.info("오늘은 ? {}", dayOfWeek);
-        model.addAttribute("thisWeekNum", weekNum);
-        model.addAttribute("thisWeek", thisWeek);
+        model.addAttribute("weekNum", weekNum);
+        model.addAttribute("weeks", weeks);
 
-        // 다음주 계산.
-        LocalDate firstDayOfNextWeek;
-
-        // 일요일
-        if (dayOfWeek == 7) {
-            firstDayOfNextWeek = now.plusDays(7);
-        } else {
-            firstDayOfNextWeek = now.plusDays((7 - dayOfWeek));
-        }
-        int nextWeekNum = firstDayOfNextWeek.get(weekFields.weekOfWeekBasedYear());
-
-        List<WeekInfo> nextWeek = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            nextWeek.add(new WeekInfo(firstDayOfNextWeek.plusDays(i)));
-        }
-
-        log.info("===== 다음주 : {} =====", nextWeekNum);
-        log.info("===== 다음주 첫날은? : {} ====", firstDayOfNextWeek);
-        model.addAttribute("nextWeekNum", nextWeekNum);
-        model.addAttribute("nextWeek", nextWeek);
+//        // 다음주 계산.
+//        LocalDate firstDayOfNextWeek;
+//
+//        // 일요일
+//        if (dayOfWeek == 7) {
+//            firstDayOfNextWeek = now.plusDays(7);
+//        } else {
+//            firstDayOfNextWeek = now.plusDays((7 - dayOfWeek));
+//        }
+//        int nextWeekNum = firstDayOfNextWeek.get(weekFields.weekOfWeekBasedYear());
+//
+//        List<WeekInfo> nextWeek = new ArrayList<>();
+//        for (int i = 0; i < 7; i++) {
+//            nextWeek.add(new WeekInfo(firstDayOfNextWeek.plusDays(i)));
+//        }
+//
+//        log.info("===== 다음주 : {} =====", nextWeekNum);
+//        log.info("===== 다음주 첫날은? : {} ====", firstDayOfNextWeek);
+//        model.addAttribute("nextWeekNum", nextWeekNum);
+//        model.addAttribute("nextWeek", nextWeek);
     }
 
     @Data
