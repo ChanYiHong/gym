@@ -1,6 +1,7 @@
 package hcy.gym.dto.reservation;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -20,7 +21,9 @@ public class ReservationResponseDTO {
     private Integer month;
     private Integer day;
 
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startTime;
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
     private String dayOfWeek;

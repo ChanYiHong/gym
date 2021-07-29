@@ -64,6 +64,7 @@
         <a href="/memberShips">가입하러 가기~</a>
     </div>
 
+    <a href="/classes/modify">예약 수정</a>
     <div th:if="${reservations != null}" th:each="reservation : ${reservations}">
         <h4>[[${reservation.year}]]년 [[${reservation.month}]]월 [[${reservation.day}]]일 [[${reservation.startTime}]] ~ [[${reservation.endTime}]] [[${reservation.dayOfWeek}]]</h4>
     </div>

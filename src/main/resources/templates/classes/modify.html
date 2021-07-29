@@ -33,51 +33,58 @@
     <div class="py-5 text-center">
         <h2>시간표</h2>
         <h4 th:text="|현재 날짜 : ${year} 년 ${month} 월 ${day} 일 ${hour} 시 ${minute} 분|" style="text-align: right;"></h4>
+        <h4 th:text="|${year} 년 ${weekNum} 주차|" style="text-align: left;">주차</h4>
     </div>
 
-    <select class="form-select" onchange="javascript:initWeek(this.value)">
+    <!-- <select class="form-select" onchange="javascript:initWeek(this.value)">
         <option value="this" selected>[[${thisWeekNum}]] 주차</opthon>
         <option value="next">[[${nextWeekNum}]] 주차</option>
-    </select>
+    </select> -->
 
     <div class="table-responsive">
         <table class="table table-bordered text-center">
             <thead>
             <tr class="bg-light-gray">
                 <th class="text-uppercase">Time</th>
-                <th class="text-uppercase mon">[[${thisWeek.get(1).getDate()}]] 월</th>
-                <th class="text-uppercase tue">[[${thisWeek.get(2).getDate()}]] 화</th>
-                <th class="text-uppercase wed">[[${thisWeek.get(3).getDate()}]] 수</th>
-                <th class="text-uppercase thu">[[${thisWeek.get(4).getDate()}]] 목</th>
-                <th class="text-uppercase fri">[[${thisWeek.get(5).getDate()}]] 금</th>
+                <th class="text-uppercase mon">[[${weeks.get(1).getDate()}]] 월</th>
+                <th class="text-uppercase tue">[[${weeks.get(2).getDate()}]] 화</th>
+                <th class="text-uppercase wed">[[${weeks.get(3).getDate()}]] 수</th>
+                <th class="text-uppercase thu">[[${weeks.get(4).getDate()}]] 목</th>
+                <th class="text-uppercase fri">[[${weeks.get(5).getDate()}]] 금</th>
             </tr>
             </thead>
             <tbody class="tbody">
             <tr>
                 <td class="align-middle">09:30am</td>
-                <td th:each="class : ${one}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}">
+                <td th:each="class : ${one}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day},  
+                data-curmember=${class.curMemberNumber}, data-maxmember=${class.maxMemberNumber}">
                     <span class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">9:30-10:20</div>
-                    <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
+                   <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
+                   <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
 
             </tr>
 
             <tr>
                 <td class="align-middle">10:35am</td>
-                <td th:each="class : ${two}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}">
+                <td th:each="class : ${two}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}, 
+                data-curmember=${class.curMemberNumber}, data-maxmember=${class.maxMemberNumber}">
                     <span class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">10:35-11:25</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
+                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
             </tr>
 
             <tr>
                 <td class="align-middle">11:40am</td>
-                <td th:each="class : ${three}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}">
+                <td th:each="class : ${three}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}, 
+                data-curmember=${class.curMemberNumber}, data-maxmember=${class.maxMemberNumber}">
                     <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">11:40-12:30</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
+                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
 
             </tr>
@@ -88,38 +95,46 @@
 
             <tr>
                 <td class="align-middle">06:00pm</td>
-                <td th:each="class : ${four}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}">
+                <td th:each="class : ${four}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}, 
+                data-curmember=${class.curMemberNumber}, data-maxmember=${class.maxMemberNumber}">
                     <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">06:00-06:50</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
+                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
 
             </tr>
 
             <tr>
                 <td class="align-middle">07:00pm</td>
-                <td th:each="class : ${five}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}">
+                <td th:each="class : ${five}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}, 
+                data-curmember=${class.curMemberNumber}, data-maxmember=${class.maxMemberNumber}">
                     <span class="bg-pink padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">07:00-07:50</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
+                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
             </tr>
 
             <tr>
                 <td class="align-middle">08:00pm</td>
-                <td th:each="class : ${six}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}">
+                <td th:each="class : ${six}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}, 
+                data-curmember=${class.curMemberNumber}, data-maxmember=${class.maxMemberNumber}">
                     <span class="bg-lightred padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">08:00-08:50</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
+                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
             </tr>
 
             <tr>
                 <td class="align-middle">09:00pm</td>
-                <td th:each="class : ${seven}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}">
+                <td th:each="class : ${seven}" class="time" th:attr="data-id=${class.id}, data-name=${class.name}, data-start=${class.startTime}, data-end=${class.endTime}, data-dayofweek=${class.day}, 
+                data-curmember=${class.curMemberNumber}, data-maxmember=${class.maxMemberNumber}">
                     <span class="bg-orange padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${class.name}">Dance</span>
                     <div class="margin-10px-top font-size14">09:00-09:50</div>
                     <div class="font-size13 text-light-gray" th:text="${class.teacher}"></div>
+                    <div class="font-size13 text-light-gray" th:text="|${class.curMemberNumber} / ${class.maxMemberNumber}|"></div>
                 </td>
             </tr>
             </tbody>
@@ -128,7 +143,7 @@
 
     <h4 class="mb-3">선택 현황</h4>
     <div class="select">
-
+        
     </div>
     <button class="reserve btn btn-primary">예약하기</button>
 </div>
@@ -149,7 +164,7 @@
     // 시간표 클릭 여부를 담을 map 자료구조.
     let classMap = new Map();
     // css제거를 위해 저장.
-    let cssMap = new Map();
+    // let cssMap = new Map();
     // 선택 현황을 나타내줄 div.
     let select = $(".select");
     // 현재 선택된 클래스 수.
@@ -159,11 +174,11 @@
     let classInfoList = new Array();
 
     // 초기 날짜.
-    let mon = [[${thisWeek.get(1).getDate()}]];
-    let tue = [[${thisWeek.get(2).getDate()}]];
-    let wed = [[${thisWeek.get(3).getDate()}]];
-    let thu = [[${thisWeek.get(4).getDate()}]];
-    let fri = [[${thisWeek.get(5).getDate()}]];
+    let mon = [[${weeks.get(1).getDate()}]];
+    let tue = [[${weeks.get(2).getDate()}]];
+    let wed = [[${weeks.get(3).getDate()}]];
+    let thu = [[${weeks.get(4).getDate()}]];
+    let fri = [[${weeks.get(5).getDate()}]];
 
     $(document).ready(function(){
 
@@ -177,12 +192,15 @@
 
         // == 시간표 클릭 시. Onclick EventListener... == //
        $(".time").on("click", function() {
-
+           
             var classId = $(this).data("id");
             var className = $(this).data("name");
             var startTime = $(this).data("start");
             var endTime = $(this).data("end");
             var dayOfWeek = $(this).data("dayofweek"); // 요일.
+
+            var maxMemberNumber = $(this).data("maxmember"); // 수업 정원.
+            var curMemberNumber = $(this).data("curmember"); // 수업 예약 인원.
 
             console.log(dayOfWeek);
             console.log(classId);
@@ -193,6 +211,8 @@
             console.log(wed);
             console.log(thu);
             console.log(fri);
+
+            console.log($(this));
 
             // 만약 클릭이 되어 있지 않은 시간표라면...
             if (classMap.get(classId) == null) {
@@ -207,9 +227,14 @@
                     return;
                 }
 
+                if (isClassFull(maxMemberNumber, curMemberNumber) == true) {
+                    alert("예약이 꽉 찬 수업입니다. 다른 수업을 예약해 주세요.");
+                    return;
+                }
+
                 // 테두리 색 추가.
                 $(this).css("border", "5px solid red");
-                cssMap.set(classId, $(this));
+                // cssMap.set(classId, $(this));
 
                 // 선택 현황에 추가.
                 select.append("<h2 id=" + classId + ">" + startTime + " ~ " + endTime + " " + dayOfWeek + " : " + className + "</h2>");
@@ -231,7 +256,7 @@
 
                 // 테두리 색 삭제.
                 $(this).css("border", "");
-                cssMap.delete(classId);
+                // cssMap.delete(classId);
 
                 // 선택 현황에서 제거.
                 $("#" + classId).remove();
@@ -258,7 +283,7 @@
 
             jsonData = JSON.stringify(data);
             console.log(jsonData);
-
+            
             $.ajax({
                 url: "/reservations/api",
                 method: "POST",
@@ -266,7 +291,7 @@
                 traditional: true,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function() {
+                success: function(arr) {
                     $(location).attr('href', "/");
                 },
                 error: function(e) {
@@ -331,7 +356,7 @@
             }
        }
 
-       // 이미 시간이 지나버린 강좌라면.. alert..
+       // 이미 시간이 지나버린 강좌라면.. alert.. 
        // dayOfWeek은 요일 (요일별로 년월일 정보를 가지고 있음. 위에 전역변수로 선언됨), startTime 은 강좌의 시작시간.
        function isTimeOver(dayOfWeek, startTime) {
 
@@ -399,59 +424,71 @@
 
        }
 
+       function isClassFull(maxMemberNumber, curMemberNumber) {
+            if (maxMemberNumber <= curMemberNumber) {
+                return true;
+            }
+            else {
+                return false;
+            }
+       }
+
+       function initModify() {
+           
+            var reservations = [[${reservations}]];
+
+            console.log(reservations);
+
+            for (var i = 0; i < reservations.length; i++) {
+                // console.log(reservations[i]);
+                // console.log(reservations[i].id);
+
+                var classId = reservations[i].id;
+                var dayOfWeek = reservations[i].dayOfWeek;
+                var startTime = reservations[i].startTime;
+                var endTime = reservations[i].endTime;
+                var className = reservations[i].name;
+
+                var startTimes = startTime.split(":");
+                startTime = startTimes[0] + ":" + startTimes[1];
+
+                var endTimes = endTime.split(":");
+                endTime = endTimes[0] + ":" + endTimes[1];
+
+                // class 선택 여부에 추가해 주기.
+                select.append("<h2 id=" + classId + ">" + startTime + " ~ " + endTime + " " + dayOfWeek + " : " + className + "</h2>");
+
+                // 강의 선택 수 더해두기.
+                classNum = classNum + 1;
+
+                // 클릭 여부 map에 추가.
+                classMap.set(classId, className);
+
+                // 수업 최종 예약 정보 리스트에 추가.
+                var dateInfo = splitDate(dayOfWeek, startTime);
+                classInfoList.push(new ClassInfos(classId, dateInfo[0], dateInfo[1]
+                            ,dateInfo[2], dateInfo[3], dateInfo[4]));
+
+
+                // css도 추가..
+                // $("." + classId + className).css("border", "5px solid red");
+                
+                // css 작업.
+                var timeTables = $(".time");
+
+                for(var i = 0; i < timeTables.length; i++) {
+                    console.log(timeTables[i]);
+                    console.log(timeTables[i].data("id"));
+                    // if(timeTables[i].data("id") == classId) {
+                    //     timeTables[i].css("border", "5px solid red");
+                    // }
+                }
+            }
+
+       }
+
     });
-
-    // week onchange event listener
-    function initWeek(weekInfo) {
-
-        console.log(weekInfo);
-        // 주 를 변경하면 지금까지 선택된 강좌를 다 취소시킴.
-        select.html('');
-        classMap.clear();
-        classNum = 0;
-        classInfoList = new Array();
-
-        // css 삭제..
-        for (const [key, value] of cssMap.entries()) {
-            console.log(value);
-            value.css("border", "");
-        }
-        cssMap.clear();
-
-
-        if(weekInfo == "this") {
-            $(".mon").html('<th class="text-uppercase mon">[[${thisWeek.get(1).getDate()}]] 월</th>');
-            $(".tue").html('<th class="text-uppercase tue">[[${thisWeek.get(2).getDate()}]] 화</th>');
-            $(".wed").html('<th class="text-uppercase wed">[[${thisWeek.get(3).getDate()}]] 수</th>');
-            $(".thu").html('<th class="text-uppercase thu">[[${thisWeek.get(4).getDate()}]] 목</th>');
-            $(".fri").html('<th class="text-uppercase fri">[[${thisWeek.get(5).getDate()}]] 금</th>');
-
-            mon = [[${thisWeek.get(1).getDate()}]];
-            tue = [[${thisWeek.get(2).getDate()}]];
-            wed = [[${thisWeek.get(3).getDate()}]];
-            thu = [[${thisWeek.get(4).getDate()}]];
-            fri = [[${thisWeek.get(5).getDate()}]];
-
-        } else {
-            $(".mon").html('<th class="text-uppercase mon">[[${nextWeek.get(1).getDate()}]] 월</th>');
-            $(".tue").html('<th class="text-uppercase tue">[[${nextWeek.get(2).getDate()}]] 화</th>');
-            $(".wed").html('<th class="text-uppercase wed">[[${nextWeek.get(3).getDate()}]] 수</th>');
-            $(".thu").html('<th class="text-uppercase thu">[[${nextWeek.get(4).getDate()}]] 목</th>');
-            $(".fri").html('<th class="text-uppercase fri">[[${nextWeek.get(5).getDate()}]] 금</th>');
-
-            mon = [[${nextWeek.get(1).getDate()}]];
-            tue = [[${nextWeek.get(2).getDate()}]];
-            wed = [[${nextWeek.get(3).getDate()}]];
-            thu = [[${nextWeek.get(4).getDate()}]];
-            fri = [[${nextWeek.get(5).getDate()}]];
-
-        }
-    }
-
-    function initModify() {
-
-    }
-
+    
 </script>
 <footer th:replace="~{/layout/footer :: footer}"></footer>
 </html>
