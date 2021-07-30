@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/head :: common_head2(~{::title})}">
+    <title th:text="#{login.title}">Title</title>
+</head>
+<header th:replace="~{/layout/header :: common_header}"></header>
+<body>
+
+<hr class="my-4">
+
+<div class="container" style="max-width: 600px">
+
+    <div class="py-5 text-center">
+        <h2>글 수정</h2>
+    </div>
+
+    <form th:action th:object="${postResponseDTO}" method="post">
+        <div>
+            <label for="title">제목</label>
+            <input type="text" id="title" th:field="*{title}" class="form-control" placeholder="제목을 입력하세요">
+        </div>
+
+        <div>
+            <div>카테고리</div>
+            <div th:each="category : ${T(hcy.gym.domain.Category).values()}" class="form-check form-check-inline">
+                <input type="radio" th:field="*{category}" th:value="${category.name()}" class="form-check-input">
+                <label th:for="${#ids.prev('category')}" th:text="${category.getDescription()}" class="form-check-label">
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <label for="content">내용</label>
+            <textarea id="content" th:field="*{content}" class="form-control" placeholder="내용을 입력하세요">
+            </textarea>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">수정</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-danger btn-lg" type="button" onclick="javascript:postDelete()">삭제</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        th:onclick="|location.href='@{/posts/{id}(id=${postResponseDTO.id})}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+<script th:inline="javascript">
+
+    function postDelete() {
+
+        var id = [[${postResponseDTO.id}]];
+
+        var form = document.createElement("form");
+        form.setAttribute("method", "Post");
+        form.setAttribute("action", "/posts/remove/"+id);
+
+        document.body.appendChild(form);
+        form.submit();
+
+    }
+</script>
+</body>
+<footer th:replace="~{/layout/footer :: footer}"></footer>
+</html>

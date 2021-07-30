@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/head :: common_head2(~{::title})}">
+    <title th:text="#{login.title}">Title</title>
+</head>
+<header th:replace="~{/layout/header :: common_header}"></header>
+<body>
+
+<div class="container" style="max-width: 600px">
+
+    <hr class="my-4">
+
+    <div class="py-5 text-center">
+        <h2>커뮤니티</h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    th:onclick="|location.href='@{/posts/new}'|"
+                    type="button기">글 쓰기</button>
+        </div>
+    </div>
+
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>제목</th>
+                <th>카테고리</th>
+                <th>날짜</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${posts.dataList}">
+                <td><a th:href="@{/posts/{id} (id=${post.id})}" th:text="${post.title}">제목</a></td>
+                <td th:text="${post.category.getDescription()}">카테고리</td>
+                <td th:text="${post.modifiedDate}">날짜</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div> <!-- /container -->
+
+</body>
+<footer class="py-5 bg-dark">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
+</footer>
+</html>
