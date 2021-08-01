@@ -28,7 +28,6 @@ public class InitData {
         initDataService.initMemberShip();
 
         initDataService.initClassTypeAndTeacher();
-//        initDataService.initClassTypeAndTeacherAndClasses();
 
         initDataService.initInfo();
     }

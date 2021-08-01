@@ -45,16 +45,16 @@ public class CommentApiController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    // 댓글 한 개 가져오기
-    @GetMapping("/{commentId}")
-    public ResponseEntity<CommentResponseDTO> getComment(@PathVariable("commentId") Long commentId) {
-
-        log.info("Get Comment : {}", commentId);
-
-        CommentResponseDTO result = commentService.getOne(commentId);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+//    // 댓글 한 개 가져오기
+//    @GetMapping("/{commentId}")
+//    public ResponseEntity<CommentResponseDTO> getComment(@PathVariable("commentId") Long commentId) {
+//
+//        log.info("Get Comment : {}", commentId);
+//
+//        CommentResponseDTO result = commentService.getOne(commentId);
+//
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
 
     // 댓글 수정
     @PatchMapping("/{commentId}")

@@ -16,4 +16,6 @@ public class CommentResponseDTO {
 
     private String memberName;
 
+    private Integer deep;
+
 }
