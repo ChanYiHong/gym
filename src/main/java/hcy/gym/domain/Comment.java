@@ -10,6 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @ToString(exclude = {"post", "member"})
+@Table(name = "comment_t")
 public class Comment extends BaseEntity{
 
     @Id

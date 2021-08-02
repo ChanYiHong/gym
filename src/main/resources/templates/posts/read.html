@@ -9,7 +9,7 @@
     <!-- Favicon-->
 <!--    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
 </head>
 <header th:replace="~{/layout/header :: common_header}"></header>
 <body>
@@ -49,7 +49,7 @@
                     <button class="w-100 btn btn-primary btn-lg" th:onclick="|location.href='@{/posts/modify/{id}(id=${post.id})}'|">수정</button>
                 </div>
                 <div class="col">
-                    <button class="w-100 btn btn-primary secondary" th:onclick="|location.href='@{/posts}'|">돌아가기</button>
+                    <button class="w-100 btn btn-secondary" th:onclick="|location.href='@{/posts}'|">돌아가기</button>
                 </div>
             </div>
             <!-- Comments section-->
@@ -57,7 +57,13 @@
                 <div class="card bg-light">
                     <div class="card-body">
                         <!-- Comment form-->
-                        <form class="mb-4"><textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea></form>
+                        <div class="mb-4">
+                            <textarea class="form-control commentArea" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+                            <button type="button" class="w-50 btn btn-primary comment">댓글 달기</button>
+                        </div>
+                        <div class="row commentBoard">
+
+                        </div>
                         <!-- Comment with nested comments-->
                         <div class="d-flex mb-4">
                             <!-- Parent comment-->
@@ -107,10 +113,77 @@
     $(document).ready(function() {
 
         var postId = [[${post.id}]];
+        var commentBoard = $(".commentBoard");
 
-        $.getJSON("/comments/" + postId, function(result) {
+        $.getJSON("/comments/list/" + postId, function(result) {
             
-            console.log(result);
+            console.log(result["dataList"]);
+
+            var data = result["dataList"];
+            var html = "";
+
+            for(var i = 0; i < data.length; i++) {
+                
+                html += '<div class="d-flex mb-4">';
+                html += '<div class="ms-3">';
+                html += '<div class="fw-bold">' + data[i].memberName + '</div>';
+                html += data[i].content;
+                html += '</div>';
+                html += '<button type="button" class="btn btn-success mb-1 reComment" data-mid='+ data[i].id +'>답글 달기</button>';
+                html += '</div>';
+
+            }
+
+            commentBoard.html(html);
+
+            $(".reComment").on("click", function() {
+
+                var motherId = $(this).data("mid");
+
+                console.log(motherId);
+                
+                var html = "";
+
+                html += "<div class='collapse row reCommentWrite'>";
+                html += "<div class='col-7'>";
+                html += "<input class='w-100 input_reComment form-control' type='text' placeholder='댓글입력...'>";
+                html += "</div>"
+                html += "<div class='col-3'>"
+                html += "<button type='button' class='btn btn-success mb-1 reCommentBtn' data-mid=" + motherId + ">답글달기</button>";
+                html += "</div>";
+                html += "</div>";
+            
+                $(this).append(html);
+
+            });
+
+
+        });
+
+        $(".comment").on("click", function() {
+            
+            var content = $(".commentArea").val();
+            console.log(content);
+            console.log(typeof content);
+
+            var sendData = {
+                content: content,
+                deep: 0,
+            };
+        
+
+            $.ajax({
+                url: "/comments/" + postId,
+                method: "POST",
+                data: JSON.stringify(sendData),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function(result) {
+                    console.log(result);
+
+                    window.location.href="/posts/"+postId;
+                }
+            });
 
         });
 

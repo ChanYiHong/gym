@@ -104,6 +104,10 @@ public class CommentServiceImpl implements CommentService{
             // 대댓글을 dto로 바꾸고 comments에 추가.
             comments.addAll(reComments);
         }
+        
+        if (result.getTotalElements() == 0) {
+            return null;
+        }
 
         // 일단 페이징이.. 되..나? ㅋㅋ (페이지 번호는 처음에 요청한 번호, 사이즈는 지금 대댓글 개수가 포함된 사이즈 원래 10이면 10 이상이 됨)
         Page<Object[]> pages = new PageImpl<>(comments, PageRequest.of(pageRequestDTO.getPage(), comments.size()), result.getTotalElements());

@@ -54,6 +54,7 @@ public interface CommentService {
 
     default CommentResponseDTO entityToDTO(Comment comment, Member member) {
         return CommentResponseDTO.builder()
+                .id(comment.getId())
                 .content(comment.getContent())
                 .memberName(member.getName())
                 .deep(comment.getDeep())
