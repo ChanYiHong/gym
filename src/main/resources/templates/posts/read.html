@@ -15,6 +15,7 @@
 <body>
 
 <hr class="my-4">
+<hr class="my-4">
 
 <!-- Page content-->
 <div class="container mt-5">
@@ -123,14 +124,38 @@
             var html = "";
 
             for(var i = 0; i < data.length; i++) {
-                
-                html += '<div class="d-flex mb-4">';
-                html += '<div class="ms-3">';
-                html += '<div class="fw-bold">' + data[i].memberName + '</div>';
-                html += data[i].content;
-                html += '</div>';
-                html += '<button type="button" class="btn btn-success mb-1 reComment" data-mid='+ data[i].id +'>답글 달기</button>';
-                html += '</div>';
+            
+                var deep = data[i].deep;
+
+                if (deep == 0) {
+
+                    html += '<div class="d-flex mb-4">';
+                    html += '<div class="ms-3">';
+                    html += '<div class="fw-bold">' + data[i].memberName + '</div>';
+                    html += data[i].content;
+                    html += '</div>';
+                    html += '<button type="button" class="btn btn-success mb-1 reComment" data-mid='+ data[i].id +'>답글 달기</button>';
+                    html += '</div>';
+                    // 답글 다는 부분. 처음엔 display none
+                    html += "<div class='collapse row reCommentWrite' style='display: none;'>";
+                    html += "<div class='col-1'></div>"
+                    html += "<div class='col-7'>";
+                    html += "<input class='w-100 input_reComment form-control' type='text' placeholder='댓글입력...'>";
+                    html += "</div>"
+                    html += "<div class='col-3'>"
+                    html += "<button type='button' class='btn btn-success mb-1 reCommentBtn' data-mid=" + data[i].id + ">답글달기</button>";
+                    html += "</div>";
+                    html += "</div>";
+
+                } else if (deep == 1) {
+
+                    html += '<div class="d-flex mt-4">';
+                    html += '<div class="ms-3">';
+                    html += '<div class="fw-bold">' + data[i].memberName + '</div>'
+                    html += data[i].content;
+                    html += '</div>';
+
+                }
 
             }
 
@@ -142,21 +167,41 @@
 
                 console.log(motherId);
                 
-                var html = "";
-
-                html += "<div class='collapse row reCommentWrite'>";
-                html += "<div class='col-7'>";
-                html += "<input class='w-100 input_reComment form-control' type='text' placeholder='댓글입력...'>";
-                html += "</div>"
-                html += "<div class='col-3'>"
-                html += "<button type='button' class='btn btn-success mb-1 reCommentBtn' data-mid=" + motherId + ">답글달기</button>";
-                html += "</div>";
-                html += "</div>";
-            
-                $(this).append(html);
+                jQuery(".reCommentWrite").show();
 
             });
 
+            $(".reCommentBtn").on("click", function() {
+
+                var motherId = $(this).data("mid");
+                var content = $(".input_reComment").val();
+
+                console.log(motherId);
+                console.log(typeof motherId);
+                console.log(content);
+                console.log(typeof content);
+
+                var sendData = {
+                    content: content,
+                    deep: 1,
+                    motherId: motherId
+                };
+
+                $.ajax({
+                    url: "/comments/" + postId,
+                    method: "POST",
+                    data: JSON.stringify(sendData),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(result) {
+                        console.log(result);
+
+                        window.location.href="/posts/"+postId;
+                    }
+
+                })                
+
+            });
 
         });
 
@@ -171,7 +216,6 @@
                 deep: 0,
             };
         
-
             $.ajax({
                 url: "/comments/" + postId,
                 method: "POST",
