@@ -42,4 +42,10 @@ public class Comment extends BaseEntity{
     public void addReCommentNum() {
         this.reCommentNum++;
     }
+
+    // == 연관관계 메서드 == /
+    public void setPost(Post post) {
+        this.post = post;
+        post.getComments().add(this);
+    }
 }

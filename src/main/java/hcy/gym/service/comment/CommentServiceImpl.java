@@ -63,6 +63,8 @@ public class CommentServiceImpl implements CommentService{
 
             Comment comment = dtoToEntityForReComment(commentRequestDTO, member, post, reCommentNum);
 
+            comment.setPost(post);
+
             commentRepository.save(comment);
 
             return comment.getId();
@@ -72,6 +74,8 @@ public class CommentServiceImpl implements CommentService{
         else {
 
             Comment comment = dtoToEntityForMotherComment(commentRequestDTO, member, post);
+
+            comment.setPost(post);
 
             commentRepository.save(comment);
 
