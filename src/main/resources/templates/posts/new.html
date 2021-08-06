@@ -6,6 +6,13 @@
 <header th:replace="~{/layout/header :: common_header}"></header>
 <body>
 
+<style>
+    .field-error {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+</style>
+
 <hr class="my-4">
 
 <div class="container" style="max-width: 600px">
@@ -15,24 +22,32 @@
     </div>
 
     <form th:action th:object="${postRequestDTO}" method="post">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 창</p>
+        </div>
+
         <div>
             <label for="title">제목</label>
-            <input type="text" id="title" th:field="*{title}" class="form-control" placeholder="제목을 입력하세요">
+            <input type="text" id="title" th:field="*{title}" th:errorclass="field-error" class="form-control" placeholder="제목을 입력하세요">
+            <div class="field-error" th:errors="*{title}"></div>
         </div>
 
         <div>
             <div>카테고리</div>
             <div th:each="category : ${T(hcy.gym.domain.Category).values()}" class="form-check form-check-inline">
-                <input type="radio" th:field="*{category}" th:value="${category.name}" class="form-check-input">
+                <input type="radio" th:field="*{category}" th:value="${category.name}" th:errorclass="field-error" class="form-check-input">
                 <label th:for="${#ids.prev('category')}" th:text="${category.getDescription()}" class="form-check-label">
                 </label>
+                <div class="field-error" th:errors="*{category}"></div>
             </div>
         </div>
 
         <div>
             <label for="content">내용</label>
-            <textarea id="content" th:field="*{content}" class="form-control" placeholder="내용을 입력하세요">
+            <textarea id="content" th:field="*{content}" th:errorclass="field-error" class="form-control" placeholder="내용을 입력하세요">
             </textarea>
+            <div class="field-error" th:errors="*{content}"></div>
         </div>
 
         <hr class="my-4">
@@ -50,6 +65,6 @@
     </form>
 
 </div>
-</body>
 <footer th:replace="~{/layout/footer :: footer}"></footer>
+</body>
 </html>

@@ -121,60 +121,145 @@
             console.log(result["dataList"]);
 
             var data = result["dataList"];
-            var html = "";
+            var listHtml = "";
 
             for(var i = 0; i < data.length; i++) {
             
                 var deep = data[i].deep;
+                var content = data[i].content;
+                var writer = data[i].memberName;
+                var commentId = data[i].id;
+                var modifiedDate = data[i].modifiedDate;
 
-                if (deep == 0) {
+                listHtml += "<div class='row replyrow reply" + commentId + "'>";
 
-                    html += '<div class="d-flex mb-4">';
-                    html += '<div class="ms-3">';
-                    html += '<div class="fw-bold">' + data[i].memberName + '</div>';
-                    html += data[i].content;
-                    html += '</div>';
-                    html += '<button type="button" class="btn btn-success mb-1 reComment" data-mid='+ data[i].id +'>답글 달기</button>';
-                    html += '</div>';
-                    // 답글 다는 부분. 처음엔 display none
-                    html += "<div class='collapse row reCommentWrite' style='display: none;'>";
-                    html += "<div class='col-1'></div>"
-                    html += "<div class='col-7'>";
-                    html += "<input class='w-100 input_reComment form-control' type='text' placeholder='댓글입력...'>";
-                    html += "</div>"
-                    html += "<div class='col-3'>"
-                    html += "<button type='button' class='btn btn-success mb-1 reCommentBtn' data-mid=" + data[i].id + ">답글달기</button>";
-                    html += "</div>";
-                    html += "</div>";
+                if (content == "") {
+                    listHtml += "<div>";
+                    listHtml += "(삭제된 댓글입니다)";
+                    listHtml += "</div>";
+                }
+                else {
 
-                } else if (deep == 1) {
+                    if (deep == 0) {
 
-                    html += '<div class="d-flex mt-4">';
-                    html += '<div class="ms-3">';
-                    html += '<div class="fw-bold">' + data[i].memberName + '</div>'
-                    html += data[i].content;
-                    html += '</div>';
+                        listHtml += "	<div class='rereply-content'>";
+                        listHtml += "		    <div>";
+                        listHtml += "			<span>";
+                        listHtml += "				<b>"+ writer +"</b>";
+                        listHtml += "			</span>";
+                        listHtml += "			<span>";
+                        listHtml += 				content;
+                        listHtml += "			</span>";
+                        listHtml += "		</div>";
+
+                        listHtml += "		<div>";
+                        listHtml += "			<a href='#' class='write_reply_start' data-bs-toggle='collapse' data-bs-target='#re_reply" + commentId + "' aria-expanded='false' aria-controls='collapseExample'>답글&nbsp;달기</a>";
+                        listHtml += "		</div>";
+
+                        // html += '<div class="d-flex flex-column mb-4">';
+                        // html += '<div class="ms-3">';
+                        // html += '<div class="fw-bold">' + data[i].memberName + '</div>';
+                        // html += data[i].content;
+                        // html += '</div>';
+                        // html += '<button type="button" class="btn btn-success mb-1 reComment" data-bs-toggle="collapse" data-bs-target="#reComment" data-mid='+ data[i].id +'>답글 달기</button>';
+                        // html += '</div>';   
+                        // html += '</div>';
+                        // // 답글 다는 부분. 처음엔 display none
+                        // html += "<div class='collapse row reCommentWrite' id='reComment'>";
+                        // html += "<div class='col-1'></div>"
+                        // html += "<div class='col-7'>";
+                        // html += "<input class='w-100 input_reComment form-control' type='text' placeholder='댓글입력...'>";
+                        // html += "</div>"
+                        // html += "<div class='col-3'>"
+                        // html += "<button type='button' class='btn btn-success mb-1 reCommentBtn' data-mid=" + data[i].id + ">답글달기</button>";
+                        // html += "</div>";
+                        // html += "</div>";
+                
+                    } else if (deep == 1) {
+
+                        // html += '<div class="d-flex mt-4">';
+                        // html += '<div class="ms-3">';
+                        // html += '<div class="fw-bold">' + data[i].memberName + '</div>'
+                        // html += data[i].content;
+                        // html += '</div>';
+
+                        listHtml += "	<div class='col-1'>"
+                        listHtml += "	</div>"
+                        listHtml += "	<div class='rereply-content"+ commentId +"'>";
+                        listHtml += "		<div>";
+                        listHtml += "			<span>";
+                        listHtml += "				<b>"+ writer +"</b>";
+                        listHtml += "			</span>";
+                        listHtml += "			<span>";
+                        listHtml += 				content;
+                        listHtml += "			</span>";
+                        listHtml += "		</div>";
+
+                        listHtml += "	</div>";
+
+                    }
+
+                    listHtml += "	<div class='reply-right'>";
+                    listHtml += "		<div>";
+                    listHtml += 			modifiedDate;
+                    listHtml += "		</div>";
+
+                    
+                    // ---- 답글입력란
+                    listHtml += "	<div class='collapse row rereply_write' id='re_reply"+ commentId +"'>";
+                    listHtml += "		<div class='col-1'>"
+                    listHtml += "		</div>"
+                    listHtml += "		<div>"
+                    listHtml +=  "  		<input class='w-100 input-reComment form-control' type='text' placeholder='댓글입력...'>"
+                    listHtml += "		</div>"
+                    listHtml += "		<div>"
+                    listHtml += "			<button type='button' class='btn btn-success mb-1 reCommentBtn' data-mid='" + commentId + "'>답글&nbsp;달기</button>"
+                    listHtml += "		</div>";
+                    listHtml += "	</div>";
+                    // ---- 답글입력란 끝
 
                 }
 
+                listHtml += "		</div>";
+
             }
 
-            commentBoard.html(html);
+            commentBoard.html(listHtml);
 
-            $(".reComment").on("click", function() {
+            // $(".reComment").on("click", function() {
 
-                var motherId = $(this).data("mid");
+            //     var motherId = $(this).data("mid");
 
-                console.log(motherId);
+            //     var parent = $(this).parent();
+
+            //     console.log(motherId);
+
+            //     console.log(parent);
+
+            //     var html = "";
+
+                // // 답글 다는 부분. 처음엔 display none
+                // html += "<div class='collapse row reCommentWrite' style='display: none;'>";
+                // html += "<div class='col-1'></div>"
+                // html += "<div class='col-7'>";
+                // html += "<input class='w-100 input_reComment form-control' type='text' placeholder='댓글입력...'>";
+                // html += "</div>"
+                // html += "<div class='col-3'>"
+                // html += "<button type='button' class='btn btn-success mb-1 reCommentBtn' data-mid=" + motherId + ">답글달기</button>";
+                // html += "</div>";
+                // html += "</div>";
+
                 
-                jQuery(".reCommentWrite").show();
+                // jQuery(".reCommentWrite").show();
 
-            });
+            //     parent.append(html);
+
+            // });
 
             $(".reCommentBtn").on("click", function() {
 
                 var motherId = $(this).data("mid");
-                var content = $(".input_reComment").val();
+                var content = $(".input-reComment").val();
 
                 console.log(motherId);
                 console.log(typeof motherId);
@@ -237,3 +322,108 @@
 
 </body>
 </html>
+
+<!-- listHtml += "<div class='row replyrow reply" + no + "'>";
+
+    if(content == ""){		// 삭제된 댓글일때
+        listHtml += "	<div>";
+        listHtml += "		(삭제된 댓글입니다)";
+        listHtml += "	</div>";
+    }else{
+        if(grpl == 0){	// 모댓글일때
+            listHtml += "	<div class='col-1'>";
+            listHtml += "		<a href='other_profile.do?other_nick="+writer+"'> ";
+            listHtml += "			<img class='reply_list_profileImage' src='./upload/profile/"+ profile +"'/>";
+            listHtml += "		</a> ";
+            listHtml += "	</div>";
+            listHtml += "	<div class='rereply-content col-8'>";
+            listHtml += "		<div>";
+            listHtml += "			<span>";
+            listHtml += "				<b>"+ writer +"</b>";
+            listHtml += "			</span>";
+            listHtml += "			<span>";
+            listHtml += 				content;
+            listHtml += "			</span>";
+            listHtml += "		</div>";
+            // 현재 로그인 상태일때 답글작성 버튼이 나온다.
+            if("${nick}" != ""){
+                listHtml += "		<div>";
+                // 함수에 게시글번호(bno), 모댓글번호(no), 모댓글 작성자(writer)를 인자로 담아서 넘긴다.
+                // 이때 모댓글 작성자 writer는 string인데 string을 인자에 넣기 위해선''나""로 감싸줘야한다.
+                // 여기선 ''와 ""가 이미 둘다 쓰이고 있는데  href를 감싸고 있는 ''와 겹치지 않는 ""를 \" 처리해서 넣어줬다.
+                listHtml += "			<a href='#' class='write_reply_start' data-bs-toggle='collapse' data-bs-target='#re_reply"+ no +"' aria-expanded='false' aria-controls='collapseExample'>답글&nbsp;달기</a>";
+                listHtml += "		</div>";
+            }
+            listHtml += "	</div>";
+
+        }else{	// 답글일때
+            listHtml += "	<div class='col-1'>"
+            listHtml += "	</div>"
+            listHtml += "	<div class='col-1'>";
+            listHtml += "		<img class='reply_list_profileImage' src='./upload/profile/"+ profile +"'/>";
+            listHtml += "	</div>";
+            listHtml += "	<div class='rereply-content"+ no +" col-7'>";
+            listHtml += "		<div>";
+            listHtml += "			<span>";
+            listHtml += "				<b>"+ writer +"</b>";
+            listHtml += "			</span>";
+            listHtml += "			<span>";
+            listHtml += 				content;
+            listHtml += "			</span>";
+            listHtml += "		</div>";
+
+            listHtml += "	</div>";
+        }
+
+        listHtml += "	<div class='col-3 reply-right'>";
+        listHtml += "		<div>";
+        listHtml += 			wdate;
+        listHtml += "		</div>";
+        // 책갈피
+        // 현재 로그인 상태이고..
+        if("${nick}" != ""){
+
+            //현재 사용자가 이 댓글의 작성자일때 삭제 버튼이 나온다.
+            if("${nick}" == writer){
+                listHtml += "		<div>";
+                // 수정할 댓글의 no를 grpl과 함께 넘긴다. 
+                // 모댓글 수정칸과 답글 수정칸을 화면에 다르게 나타내야하기 때문에 모댓글과 답글을 구분하는 grpl을 함께 넘겨주어야한다.
+                //listHtml += "			<a href='javascript:' no='"+ no +"' grpl='"+ grpl +"' class='reply_modify'>수정</a>";
+                //listHtml += "			&nbsp;|&nbsp;";
+                // 삭제는 no만 넘겨주면 된다.
+                listHtml += "			<a href='javascript:' no='"+ no +"' grpl='"+ grpl + "' bno='"+ bno +"' grp='"+ grp +"' class='reply_delete'>삭제</a>";
+                listHtml += "		</div>";
+            }
+        }
+
+        listHtml += "	</div>";
+        // 댓글에 답글달기를 누르면 답글입력란이 나온다.
+        // ---- 답글입력란
+        listHtml += "	<div class='collapse row rereply_write' id='re_reply"+ no +"'>";
+        listHtml += "		<div class='col-1'>"
+        listHtml += "		</div>"
+        listHtml += "		<div class='col-1'>"
+        listHtml += "			<a href='other_profile.do?other_nick="+writer+"'> ";
+        listHtml += "				<img id='write_reply_profileImage' src='./upload/profile/${profile}'/>"
+        listHtml += "			</a> ";
+        listHtml += "		</div>"
+        listHtml += "		<div class='col-7'>"
+        listHtml +=  "  		<input class='w-100 input_rereply_div form-control' id='input_rereply"+ no +"' type='text' placeholder='댓글입력...'>"
+        listHtml += "		</div>"
+        listHtml += "		<div class='col-3'>"
+        // 답글달기 버튼이 눌리면 모댓글 번호(no)와 게시물번호(bno)를 함수에 전달한다.
+
+        // 동적으로 넣은 html태그에서 발생하는 이벤트는 동적으로 처리해줘야한다 !!!!!
+        // 예를들어, 동적으로 넣은 html태그에서 발생하는 click 이벤트는 html태그 안에서 onclick으로 처리하면 안되고, jquery에서 클래스명이나 id값으로 받아서 처리하도록 해야한다.
+        // 아래코드를 보자~~~~
+        // listHtml += "			<button onclick='javascript:WriteReReply("+ no +","+ bno +")' type='button' class='btn btn-success mb-1 write_rereply' >답글&nbsp;달기</button>"
+        // 위 코드는 클릭되어도 값이 넘겨지지 않는다. 값이 undefined가 된다.
+        // 아래코드처럼 짜야한다. click이벤트를 처리하지 않고 데이터(no, bno)만 속성으로 넘겨주도록 작성한다.
+        listHtml += "			<button type='button' class='btn btn-success mb-1 write_rereply' no='" + no + "' bno='" + bno + "'>답글&nbsp;달기</button>"
+        listHtml += "		</div>";
+        listHtml += "	</div>";
+        // ---- 답글입력란 끝
+    }
+
+    listHtml += "</div>"; -->
+

@@ -58,6 +58,7 @@ public interface CommentService {
                 .content(comment.getContent())
                 .memberName(member.getName())
                 .deep(comment.getDeep())
+                .modifiedDate(comment.getLastModifiedDate())
                 .build();
     }
 
