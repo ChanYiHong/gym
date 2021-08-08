@@ -150,10 +150,58 @@ public class CommentServiceImpl implements CommentService{
 
     }
 
+    // 댓글 삭제는 우선 댓글 내용을 지움. 모댓글, 대댓글이 모두 삭제되었을 경우만 싹 지움.
     @Override
+    @Transactional
     public void remove(Long commentId) {
 
-        commentRepository.deleteById(commentId);
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(IllegalArgumentException::new);
 
+        comment.removeComment();
+
+        // 대댓글 모댓글 다 가져와서 다 상태가 삭제상태면 다 지워버림. 아니면 그냥 냅둠.
+
+        // 대댓글일 경우.
+        if (comment.getMotherId() != null) {
+            Comment motherComment = commentRepository.findById(comment.getMotherId())
+                    .orElseThrow(IllegalArgumentException::new);
+
+            // 모댓글도 삭제되었을 때
+            if (motherComment.isRemoved()) {
+                checkAndRemoveComment(motherComment.getId());
+            }
+        }
+        // 모댓글일 경우.
+        else {
+            checkAndRemoveComment(commentId);
+        }
+
+    }
+
+    private void checkAndRemoveComment(Long motherId) {
+        List<Object[]> reCommentList = commentRepository.findReCommentByMotherCommentId(motherId);
+        List<Object[]> result = reCommentList.stream()
+                .filter(objects -> {
+                    Comment reComment = (Comment) objects[0];
+                    if (reComment.isRemoved()) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }).collect(Collectors.toList());
+
+        log.info("result size : {}", result.size());
+
+        // 만약에 댓글이 다 삭제 상태라면 size가 0일것.
+        if (result.size() == 0) {
+            log.info("모댓글, 대댓글 전체 삭제...");
+            commentRepository.deleteById(motherId);
+            reCommentList
+                    .forEach(objects -> {
+                        Comment reComment = (Comment) objects[0];
+                        commentRepository.deleteById(reComment.getId());
+                    });
+        }
     }
 }

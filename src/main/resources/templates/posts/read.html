@@ -18,7 +18,7 @@
 <hr class="my-4">
 
 <!-- Page content-->
-<div class="container mt-5">
+<div class="container">
     <div class="row">
         <div class="col-lg-8">
             <!-- Post content-->
@@ -28,7 +28,7 @@
                     <!-- Post title-->
                     <h1 class="fw-bolder mb-1" th:text="${post.title}">Welcome to Blog Post!</h1>
                     <!-- Post meta content-->
-                    <div class="text-muted fst-italic mb-2" th:text="${post.modifiedDate}">Posted on January 1, 2021 by Start Bootstrap</div>
+                    <div class="text-muted fst-italic mb-2" th:text="${#temporals.format(post.modifiedDate, 'yyyy-MM-dd HH:mm')}">Posted on January 1, 2021 by Start Bootstrap</div>
                     <!-- Post categories-->
                     <a class="badge bg-secondary text-decoration-none link-light" th:text="${post.category.getDescription()}">Web Design</a>
 <!--                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>-->
@@ -47,7 +47,7 @@
             </article>
             <div class="row">
                 <div class="col">
-                    <button class="w-100 btn btn-primary btn-lg" th:onclick="|location.href='@{/posts/modify/{id}(id=${post.id})}'|">수정</button>
+                    <button class="w-100 btn btn-primary" th:onclick="|location.href='@{/posts/modify/{id}(id=${post.id})}'|">수정</button>
                 </div>
                 <div class="col">
                     <button class="w-100 btn btn-secondary" th:onclick="|location.href='@{/posts}'|">돌아가기</button>
@@ -65,39 +65,6 @@
                         <div class="row commentBoard">
 
                         </div>
-                        <!-- Comment with nested comments-->
-                        <div class="d-flex mb-4">
-                            <!-- Parent comment-->
-<!--                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>-->
-                            <div class="ms-3">
-                                <div class="fw-bold">Commenter Name</div>
-                                If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                                <!-- Child comment 1-->
-                                <div class="d-flex mt-4">
-<!--                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>-->
-                                    <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name</div>
-                                        And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
-                                    </div>
-                                </div>
-                                <!-- Child comment 2-->
-                                <div class="d-flex mt-4">
-<!--                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>-->
-                                    <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name</div>
-                                        When you put money directly to a problem, it makes a good headline.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Single comment-->
-                        <div class="d-flex">
-                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                            <div class="ms-3">
-                                <div class="fw-bold">Commenter Name</div>
-                                When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -105,7 +72,7 @@
     </div>
 </div>
 <!-- Footer-->
-<footer th:replace="~{/layout/footer :: footer}"></footer>
+<!-- <footer th:replace="~{/layout/footer :: footer}"></footer> -->
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -113,8 +80,16 @@
     
     $(document).ready(function() {
 
+        var loginMemberId = [[${memberResponseDTO.id}]];
         var postId = [[${post.id}]];
         var commentBoard = $(".commentBoard");
+
+        function formatTime(str) {
+            var date = new Date(str);
+
+            return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() +
+                ' ' + date.getHours() + ':' + date.getMinutes();
+        }
 
         $.getJSON("/comments/list/" + postId, function(result) {
             
@@ -129,7 +104,8 @@
                 var content = data[i].content;
                 var writer = data[i].memberName;
                 var commentId = data[i].id;
-                var modifiedDate = data[i].modifiedDate;
+                var modifiedDate = formatTime(data[i].modifiedDate);
+                var writerId = data[i].memberId;
 
                 listHtml += "<div class='row replyrow reply" + commentId + "'>";
 
@@ -142,75 +118,66 @@
 
                     if (deep == 0) {
 
-                        listHtml += "	<div class='rereply-content'>";
+                        listHtml += "	<div class='reComment-content'>";
                         listHtml += "		    <div>";
                         listHtml += "			<span>";
                         listHtml += "				<b>"+ writer +"</b>";
                         listHtml += "			</span>";
+                        listHtml += "</br>";
                         listHtml += "			<span>";
                         listHtml += 				content;
                         listHtml += "			</span>";
+                        listHtml += "		<div style='font-size: small;'>";
+                        listHtml += 			modifiedDate;
+                        listHtml += "		</div>";
                         listHtml += "		</div>";
 
-                        listHtml += "		<div>";
+                        listHtml += "		<div class='row'>";
+                        listHtml += "          <div class='col'>"
                         listHtml += "			<a href='#' class='write_reply_start' data-bs-toggle='collapse' data-bs-target='#re_reply" + commentId + "' aria-expanded='false' aria-controls='collapseExample'>답글&nbsp;달기</a>";
-                        listHtml += "		</div>";
+                        listHtml += "          </div>";
+                        
+                        if (loginMemberId == writerId) {
+                            listHtml += "     <div class='col'>";
+                            listHtml += "       <button class='btn btn-danger remove-comment' data-id=" + commentId + ">삭제</button>";
+                            listHtml += "     </div>";
+                        }
 
-                        // html += '<div class="d-flex flex-column mb-4">';
-                        // html += '<div class="ms-3">';
-                        // html += '<div class="fw-bold">' + data[i].memberName + '</div>';
-                        // html += data[i].content;
-                        // html += '</div>';
-                        // html += '<button type="button" class="btn btn-success mb-1 reComment" data-bs-toggle="collapse" data-bs-target="#reComment" data-mid='+ data[i].id +'>답글 달기</button>';
-                        // html += '</div>';   
-                        // html += '</div>';
-                        // // 답글 다는 부분. 처음엔 display none
-                        // html += "<div class='collapse row reCommentWrite' id='reComment'>";
-                        // html += "<div class='col-1'></div>"
-                        // html += "<div class='col-7'>";
-                        // html += "<input class='w-100 input_reComment form-control' type='text' placeholder='댓글입력...'>";
-                        // html += "</div>"
-                        // html += "<div class='col-3'>"
-                        // html += "<button type='button' class='btn btn-success mb-1 reCommentBtn' data-mid=" + data[i].id + ">답글달기</button>";
-                        // html += "</div>";
-                        // html += "</div>";
+                        listHtml += "		</div>";
+                        listHtml += "</div>";
                 
                     } else if (deep == 1) {
 
-                        // html += '<div class="d-flex mt-4">';
-                        // html += '<div class="ms-3">';
-                        // html += '<div class="fw-bold">' + data[i].memberName + '</div>'
-                        // html += data[i].content;
-                        // html += '</div>';
-
-                        listHtml += "	<div class='col-1'>"
-                        listHtml += "	</div>"
-                        listHtml += "	<div class='rereply-content"+ commentId +"'>";
+                        listHtml += "	<div class='rereply-content"+ commentId +"' style='margin-left: 30px;'>";
                         listHtml += "		<div>";
                         listHtml += "			<span>";
                         listHtml += "				<b>"+ writer +"</b>";
                         listHtml += "			</span>";
+                        listHtml += "<br/>"
                         listHtml += "			<span>";
                         listHtml += 				content;
                         listHtml += "			</span>";
+                            listHtml += "		<div style='font-size: small;'>";
+                            listHtml += 			modifiedDate;
+                            listHtml += "		</div>";
+
+                        if (loginMemberId == writerId) {
+                            listHtml += "     <div class='col'>";
+                            listHtml += "       <button class='btn btn-danger remove-comment' data-id="+ commentId +">삭제</button>";
+                            listHtml += "     </div>";
+                        }
                         listHtml += "		</div>";
 
                         listHtml += "	</div>";
 
                     }
-
-                    listHtml += "	<div class='reply-right'>";
-                    listHtml += "		<div>";
-                    listHtml += 			modifiedDate;
-                    listHtml += "		</div>";
-
                     
                     // ---- 답글입력란
-                    listHtml += "	<div class='collapse row rereply_write' id='re_reply"+ commentId +"'>";
+                    listHtml += "	<div class='collapse row rereply_write' id='re_reply" + commentId + "'>";
                     listHtml += "		<div class='col-1'>"
                     listHtml += "		</div>"
                     listHtml += "		<div>"
-                    listHtml +=  "  		<input class='w-100 input-reComment form-control' type='text' placeholder='댓글입력...'>"
+                    listHtml +=  "  		<input class='w-100 form-control' id='input-reComment" + commentId + "' type='text' placeholder='댓글입력...'>"
                     listHtml += "		</div>"
                     listHtml += "		<div>"
                     listHtml += "			<button type='button' class='btn btn-success mb-1 reCommentBtn' data-mid='" + commentId + "'>답글&nbsp;달기</button>"
@@ -226,52 +193,87 @@
 
             commentBoard.html(listHtml);
 
-            // $(".reComment").on("click", function() {
-
-            //     var motherId = $(this).data("mid");
-
-            //     var parent = $(this).parent();
-
-            //     console.log(motherId);
-
-            //     console.log(parent);
-
-            //     var html = "";
-
-                // // 답글 다는 부분. 처음엔 display none
-                // html += "<div class='collapse row reCommentWrite' style='display: none;'>";
-                // html += "<div class='col-1'></div>"
-                // html += "<div class='col-7'>";
-                // html += "<input class='w-100 input_reComment form-control' type='text' placeholder='댓글입력...'>";
-                // html += "</div>"
-                // html += "<div class='col-3'>"
-                // html += "<button type='button' class='btn btn-success mb-1 reCommentBtn' data-mid=" + motherId + ">답글달기</button>";
-                // html += "</div>";
-                // html += "</div>";
-
-                
-                // jQuery(".reCommentWrite").show();
-
-            //     parent.append(html);
-
-            // });
-
+            // 답글 달기 버튼 클릭 이벤트. 동적으로 생성된 html 버튼이라 ajax 코드 안에 작성해야 동작함.
             $(".reCommentBtn").on("click", function() {
 
                 var motherId = $(this).data("mid");
-                var content = $(".input-reComment").val();
+                var content = $("#input-reComment"+motherId).val();
 
                 console.log(motherId);
                 console.log(typeof motherId);
                 console.log(content);
                 console.log(typeof content);
 
+                content = content.trim();
+
+                if (content == "") {
+                    alert("댓글은 공백일 수 없습니다.");
+                }
+                else {
+
+                    $("#input-reComment"+motherId).val("");
+
+                    var sendData = {
+                        content: content,
+                        deep: 1,
+                        motherId: motherId
+                    };
+
+                    $.ajax({
+                        url: "/comments/" + postId,
+                        method: "POST",
+                        data: JSON.stringify(sendData),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function(result) {
+                            console.log(result);
+
+                            window.location.href="/posts/"+postId;
+                        }
+
+                    });
+                }               
+
+            });
+
+            // 댓글 삭제.
+            $(".remove-comment").on("click", function() {
+
+                var commentId = $(this).data("id");
+
+                $.ajax({
+                    url: "/comments/"+commentId,
+                    method: "DELETE",
+                    success: function(result) {
+                        console.log(result);
+
+                        window.location.href="/posts/"+postId;
+                    }
+                })
+
+            });
+
+        });
+
+        // 댓글 작성 버튼 이벤트.
+        $(".comment").on("click", function() {
+            
+            var content = $(".commentArea").val();
+            console.log(content);
+            console.log(typeof content);
+
+            content = content.trim();
+
+            if (content == "") {
+                alert("댓글은 공백일 수 없습니다.");
+            }
+            else {
+
                 var sendData = {
                     content: content,
-                    deep: 1,
-                    motherId: motherId
+                    deep: 0,
                 };
-
+            
                 $.ajax({
                     url: "/comments/" + postId,
                     method: "POST",
@@ -283,36 +285,8 @@
 
                         window.location.href="/posts/"+postId;
                     }
-
-                })                
-
-            });
-
-        });
-
-        $(".comment").on("click", function() {
-            
-            var content = $(".commentArea").val();
-            console.log(content);
-            console.log(typeof content);
-
-            var sendData = {
-                content: content,
-                deep: 0,
-            };
-        
-            $.ajax({
-                url: "/comments/" + postId,
-                method: "POST",
-                data: JSON.stringify(sendData),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function(result) {
-                    console.log(result);
-
-                    window.location.href="/posts/"+postId;
-                }
-            });
+                });
+            }
 
         });
 

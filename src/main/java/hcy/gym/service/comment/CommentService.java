@@ -36,6 +36,7 @@ public interface CommentService {
                 .reCommentNum(0)
                 .motherId(null)
                 .subOrder(null)
+                .isRemoved(false)
                 .build();
     }
 
@@ -49,6 +50,7 @@ public interface CommentService {
                 .reCommentNum(null)
                 .motherId(commentRequestDTO.getMotherId())
                 .subOrder(reCommentNum)
+                .isRemoved(false)
                 .build();
     }
 
@@ -59,6 +61,7 @@ public interface CommentService {
                 .memberName(member.getName())
                 .deep(comment.getDeep())
                 .modifiedDate(comment.getLastModifiedDate())
+                .memberId(member.getId())
                 .build();
     }
 

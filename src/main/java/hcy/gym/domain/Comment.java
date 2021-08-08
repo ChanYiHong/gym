@@ -34,6 +34,8 @@ public class Comment extends BaseEntity{
 
     private Integer reCommentNum; // 본인이 모 댓글일 때 대댓글의 수. 대댓글 order에 사용.
 
+    private boolean isRemoved;
+
     public void changeContent(String content) {
         this.content = content;
     }
@@ -47,5 +49,11 @@ public class Comment extends BaseEntity{
     public void setPost(Post post) {
         this.post = post;
         post.getComments().add(this);
+    }
+
+    // == 댓글 삭제시 내용을 우선 삭제. 상태도 삭제로 바꿈. == /
+    public void removeComment() {
+        this.content = "";
+        this.isRemoved = true;
     }
 }

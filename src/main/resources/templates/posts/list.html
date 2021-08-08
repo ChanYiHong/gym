@@ -36,14 +36,14 @@
             <tr th:each="post : ${posts.dataList}">
                 <td><a th:href="@{/posts/{id} (id=${post.id})}" th:text="${post.title}">제목</a></td>
                 <td th:text="${post.category.getDescription()}">카테고리</td>
-                <td th:text="${post.modifiedDate}">날짜</td>
+                <td th:text="${#temporals.format(post.modifiedDate, 'yyyy-MM-dd HH:mm')}">날짜</td>
             </tr>
             </tbody>
         </table>
     </div>
 
 </div> <!-- /container -->
-<footer th:replace="~{/layout/footer :: footer}"></footer>
+<!-- <footer th:replace="~{/layout/footer :: footer}"></footer> -->
 </body>
 
 </html>
