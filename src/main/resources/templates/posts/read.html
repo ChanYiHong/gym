@@ -91,9 +91,7 @@
                 ' ' + date.getHours() + ':' + date.getMinutes();
         }
 
-        $.getJSON("/comments/list/" + postId, function(result) {
-            
-            console.log(result["dataList"]);
+        function makeCommentList(result) {
 
             var data = result["dataList"];
             var listHtml = "";
@@ -191,7 +189,34 @@
 
             }
 
+            listHtml += "<ul class='pagination h-100 justify-content-center align-items-center'>";
+            if(result.prev) {
+                listHtml += "<li class='page-item'>";
+                listHtml += "<a class='page-link' data-page='"+(result.start - 1)+"' tabindex='-1'>PREVIOUS</a>"
+                listHtml += "</li>";
+            }
+
+            for(var pageIndex = 0; pageIndex < result.pageList.length; pageIndex++) {
+                listHtml += "<li>";
+                listHtml += "<a class='page-link' data-page='"+result.pageList[pageIndex]+"'>"+result.pageList[pageIndex]+"</a>";
+                listHtml += "</li>";
+            }
+
+            if(result.next) {
+                listHtml += "<li class='page-item'>";
+                listHtml += "<a class='page-link' data-page='"+(result.end + 1)+"'>NEXT</a>"
+                listHtml += "</li>";
+            }
+            listHtml += "</ul>";
+
             commentBoard.html(listHtml);
+        }
+
+        $.getJSON("/comments/list/" + postId, function(result) {
+            
+            console.log(result["dataList"]);
+
+            makeCommentList(result);
 
             // 답글 달기 버튼 클릭 이벤트. 동적으로 생성된 html 버튼이라 ajax 코드 안에 작성해야 동작함.
             $(".reCommentBtn").on("click", function() {
@@ -250,6 +275,25 @@
                         window.location.href="/posts/"+postId;
                     }
                 })
+
+            });
+
+            // 페이징.
+            $(".page-link").on("click", function(){
+
+                var page = $(this).data("page");
+
+                $.ajax({
+                    url: "/comments/list/"+postId+"/?page="+page,
+                    method: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success: function(result){
+                        console.log(result);
+                        // 리뷰 화면 재조정.
+                        makeCommentList(result);
+                    }
+                });
 
             });
 

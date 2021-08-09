@@ -145,7 +145,7 @@
     <div class="select">
         
     </div>
-    <button class="reserve btn btn-primary">예약하기</button>
+    <button type="button" class="reserveBtn btn btn-primary">예약하기</button>
 </div>
 </body>
 <script th:inline="javascript">
@@ -270,28 +270,29 @@
 
        });
 
-       $(".reserve").on("click", function(){
+       $(".reserveBtn").on("click", function(){
 
             // 보내야 할 것. 년 월 일 시 분 classId
             var data = {
                 "classInfoList" : classInfoList
             }
 
-            jsonData = JSON.stringify(data);
-            console.log(jsonData);
+            // jsonData = JSON.stringify(data);
+            // console.log(jsonData);
             
             $.ajax({
                 url: "/reservations/api",
                 method: "POST",
-                data: jsonData,
-                traditional: true,
-                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8;",
                 dataType: "json",
                 success: function(arr) {
                     $(location).attr('href', "/");
                 },
                 error: function(e) {
-                    alert("실패...ㅠ");
+                    console.log(e);
+                    alert("예약 성공!");
+                    $(location).attr('href', "/");
                 }
             })
 

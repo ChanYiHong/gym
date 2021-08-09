@@ -122,34 +122,6 @@ public class CommentServiceImpl implements CommentService{
 
     }
 
-//    @Override
-//    public CommentResponseDTO getOne(Long commentId) {
-//
-//        Optional<Comment> commentOptional = commentRepository.findById(commentId);
-//
-//        if (commentOptional.isEmpty()) {
-//            throw new IllegalArgumentException("해당 댓글이 없습니다 : " + commentId);
-//        }
-//
-//        return entityToDTO(commentOptional.get());
-//
-//    }
-
-    @Override
-    public void modify(CommentModifyDTO commentModifyDTO) {
-
-        Optional<Comment> optionalComment = commentRepository.findById(commentModifyDTO.getId());
-
-        if (optionalComment.isEmpty()) {
-            throw new IllegalArgumentException("해당 댓글이 없음 : " + commentModifyDTO.getId());
-        }
-
-        Comment comment = optionalComment.get();
-
-        comment.changeContent(commentModifyDTO.getContent());
-
-    }
-
     // 댓글 삭제는 우선 댓글 내용을 지움. 모댓글, 대댓글이 모두 삭제되었을 경우만 싹 지움.
     @Override
     @Transactional

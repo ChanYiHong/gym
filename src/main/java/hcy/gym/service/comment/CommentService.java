@@ -17,12 +17,6 @@ public interface CommentService {
     // 댓글 목록
     PageResponseDTO<Object[], CommentResponseDTO> getList(Long postId, PageRequestDTO pageRequestDTO);
 
-//    // 댓글 1개 (팝업용)
-//    CommentResponseDTO getOne(Long commentId);
-
-    // 댓글 수정
-    void modify(CommentModifyDTO commentModifyDTO);
-
     // 댓글 삭제
     void remove(Long commentId);
 

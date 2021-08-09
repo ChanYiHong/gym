@@ -39,7 +39,7 @@ public class PageResponseDTO<EN, DTO> {
 
     private void makePage(Pageable pageable) {
 
-        page = pageable.getPageNumber() - 1;
+        page = pageable.getPageNumber() + 1;
         size = pageable.getPageSize();
 
         int tempEnd = (int) Math.ceil(page / 10.0) * 10;

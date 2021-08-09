@@ -45,28 +45,6 @@ public class CommentApiController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-//    // 댓글 한 개 가져오기
-//    @GetMapping("/{commentId}")
-//    public ResponseEntity<CommentResponseDTO> getComment(@PathVariable("commentId") Long commentId) {
-//
-//        log.info("Get Comment : {}", commentId);
-//
-//        CommentResponseDTO result = commentService.getOne(commentId);
-//
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
-
-    // 댓글 수정
-    @PatchMapping("/{commentId}")
-    public ResponseEntity<String> getOneComment(@RequestBody CommentModifyDTO commentModifyDTO) {
-
-        log.info("Modify Comment : {}", commentModifyDTO);
-
-        commentService.modify(commentModifyDTO);
-
-        return new ResponseEntity<>("success", HttpStatus.OK);
-    }
-
     // 댓글 삭제
     @DeleteMapping("/{commentId}")
     public ResponseEntity<String> removeComment(@PathVariable("commentId") Long commentId) {

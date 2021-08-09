@@ -42,6 +42,18 @@
         </table>
     </div>
 
+    <ul class="pagination h-100 justify-content-center align-items-center">
+        <li class="page-item " th:if="${posts.prev}">
+            <a class="page-link" th:href="@{/posts(page=${posts.start-1})}" tabindex="-1">PREVIOUS</a>
+        </li>
+        <li th:class=" 'page-item ' + ${posts.page == page?'active':''}" th:each="page : ${posts.pageList}">
+            <a class="page-link" th:href="@{/posts(page=${page})}">[[${page}]]</a>
+        </li>
+        <li class="page-item" th:if="${posts.next}">
+            <a class="page-link" th:href="@{/posts(page=${posts.end+1})}">NEXT</a>
+        </li>
+    </ul>
+
 </div> <!-- /container -->
 <!-- <footer th:replace="~{/layout/footer :: footer}"></footer> -->
 </body>

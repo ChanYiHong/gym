@@ -7,6 +7,7 @@ import hcy.gym.service.reservation.ReservationService;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class ReservationApiController {
 
     private final ReservationService reservationService;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> reserveClass(@RequestBody ReservationList reservationList,
                                                @Login MemberResponseDTO loginMember){
 
@@ -43,7 +44,7 @@ public class ReservationApiController {
 
         log.info("수업 예약 완료!");
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("success", HttpStatus.OK);
 
     }
 
