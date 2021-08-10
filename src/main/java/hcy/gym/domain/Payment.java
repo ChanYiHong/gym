@@ -5,6 +5,7 @@ import hcy.gym.converter.PaymentWayConverter;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 /**
  * 회원의 결제 방법 및 정보 저장.
@@ -31,6 +32,10 @@ public class Payment extends BaseEntity{
 
     private Integer price;
 
+    private LocalDate startTime;
+
+    private LocalDate endTime;
+
     // 어떤 멤버쉽인지.. 다 대 1 관계.
     @ManyToOne(fetch = FetchType.LAZY)
     private MemberShip memberShip;
@@ -38,5 +43,14 @@ public class Payment extends BaseEntity{
     // 1:1 관계 멤버와
     @OneToOne(fetch = FetchType.LAZY)
     private Member member;
+
+    public void changeEndTime(LocalDate endTime) {
+        this.endTime = endTime;
+    }
+
+    public void calculateStartAndEndTime(Integer month) {
+        this.startTime = LocalDate.now();
+        this.endTime = startTime.plusMonths(month);
+    }
 
 }

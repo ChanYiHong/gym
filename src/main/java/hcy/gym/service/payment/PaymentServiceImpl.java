@@ -4,6 +4,7 @@ import hcy.gym.domain.Member;
 import hcy.gym.domain.MemberShip;
 import hcy.gym.domain.Payment;
 import hcy.gym.dto.member.MemberResponseDTO;
+import hcy.gym.dto.payment.HoldingRequestDTO;
 import hcy.gym.dto.membership.MemberShipRegisterDTO;
 import hcy.gym.dto.payment.PaymentInfoDTO;
 import hcy.gym.repository.member.MemberRepository;
@@ -14,8 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Transactional(readOnly = true)
 @Service
@@ -38,6 +39,8 @@ public class PaymentServiceImpl implements PaymentService{
 
         Payment payment = dtoToEntity(registerDTO, member, memberShip);
 
+        payment.calculateStartAndEndTime(memberShip.getMonth());
+
         paymentRepository.save(payment);
 
         return payment.getId();
@@ -59,11 +62,34 @@ public class PaymentServiceImpl implements PaymentService{
         Payment payment = (Payment) result.get(0)[0];
         MemberShip memberShip = (MemberShip) result.get(0)[1];
 
-        PaymentInfoDTO paymentInfoDTO = entityToDTO(payment, memberShip);
+        return entityToDTO(payment, memberShip);
 
-        paymentInfoDTO.calculateTime(memberShip.getMonth());
+    }
 
-        return paymentInfoDTO;
+    @Override
+    @Transactional
+    public void holding(Long memberId, HoldingRequestDTO holdingRequestDTO) {
+        List<Object[]> result = paymentRepository.findByMemberId(memberId);
+        Payment payment = (Payment) result.get(0)[0];
 
+        String holdPeriod = holdingRequestDTO.getPeriod();
+        LocalDate endTime = payment.getEndTime();
+
+        // 1주 홀딩
+        if (holdPeriod.equals("1주")) {
+            payment.changeEndTime(endTime.plusWeeks(1));
+        }
+        // 2주 홀딩
+        else if (holdPeriod.equals("2주")) {
+            payment.changeEndTime(endTime.plusWeeks(2));
+        }
+        // 3주 홀딩
+        else if (holdPeriod.equals("3주")) {
+            payment.changeEndTime(endTime.plusWeeks(3));
+        }
+        // 4주 홀딩
+        else if (holdPeriod.equals("4주")) {
+            payment.changeEndTime(endTime.plusWeeks(4));
+        }
     }
 }

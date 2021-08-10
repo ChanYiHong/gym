@@ -57,6 +57,11 @@
             <label for="end">종료일</label>
             <input class="form-control" id="end" th:value="${payment.endTime}" readonly>
         </div>
+        <div class="form-group">
+            <a th:href="@{/payments/holding/{memberId} (memberId=${memberResponseDTO.id})}">홀딩 하기</a>
+            <p>홀딩이란?</p>
+            <p>부득이한 사정으로 인해 잠시 멤버쉽을 중단하고자 할 때 사용...</p>
+        </div>
     </div>
 
     <div th:if="${payment == null}">

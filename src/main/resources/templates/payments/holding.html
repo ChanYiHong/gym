@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/head :: common_head2(~{::title})}">
+    <title>홀딩 신청</title>
+</head>
+<header th:replace="~{/layout/header :: common_header}"></header>
+<body>
+
+<style>
+    p,
+    label {
+        font: 1rem 'Fira Sans', sans-serif;
+    }
+
+    input {
+        margin: .4rem;
+    }
+</style>
+
+<div class="container">
+
+    <hr class="my-4">
+
+    <div class="py-5 text-center">
+
+        <h2>현재 시작일 : <span th:text="${dateDTO.startTime}"></span></h2>
+        <h2>현재 종료일 : <span th:text="${dateDTO.endTime}"></span></h2>
+
+        <h2>바뀐 종료일 : <span class="end" style="color: darkorange;"></span></h2>
+
+    </div>
+
+    <form th:acthon="@{/login}" method="post">
+
+        <div>
+            <div>홀딩 기간</div>
+            <div>
+                <input type="radio" id="one" name="period" value="1주" class="radio" checked>
+                <label for="one">1주</label>
+            </div>
+            <div>
+                <input type="radio" id="two" name="period" value="2주" class="radio">
+                <label for="two">2주</label>
+            </div>
+            <div>
+                <input type="radio" id="three" name="period" value="3주" class="radio">
+                <label for="three">3주</label>
+            </div>
+            <div>
+                <input type="radio" id="four" name="period" value="4주" class="radio">
+                <label for="four">4주</label>
+            </div>
+        </div>
+
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">홀딩 하기</button>
+            </div>
+            <div class="col">
+                <a class="w-100 btn btn-secondary btn-lg" th:href="@{/members/{memberId} (memberId=${memberResponseDTO.id})}">돌아가기</a>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script th:inline="javascript">
+
+    $(document).ready(function(){
+
+        function dateTimeFormat(date) {
+            return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+        }
+        
+        const endTime = [[${dateDTO.endTime}]];
+
+        var period = $('input[name="period"]:radio').val();
+        var endDate = new Date(endTime);
+
+        endDate.setDate(endDate.getDate() + 7);
+        $(".end").text(dateTimeFormat(endDate));
+        
+        $('input[type=radio][name=period]').change(function() {
+
+            var period = $('input[type=radio][name=period]').val();
+            var endDate = new Date(endTime);
+
+            console.log(period);
+            console.log(endDate);
+
+            if (period == "1주") {
+                endDate.setDate(endDate.getDate() + 7);
+            } else if (period == "2주") {
+                endDate.setDate(endDate.getDate() + 14);
+            } else if (period == "3주") {
+                endDate.setDate(endDate.getDate() + 21);
+            } else if (period == "4주") {
+                endDate.setDate(endDate.getDate() + 28);
+            }
+
+            console.log(endDate);
+
+            $(".end").text("");
+            $(".end").text(dateTimeFormat(endDate));
+
+        });
+
+    });
+
+</script>
+
+<footer th:replace="~{/layout/footer :: footer}"></footer>
+</body>
+</html>
