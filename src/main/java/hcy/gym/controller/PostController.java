@@ -68,6 +68,7 @@ public class PostController {
                            ,@ModelAttribute PageRequestDTO pageRequestDTO, Model model) {
 
         log.info("Post Controller post list request : {}", pageRequestDTO);
+        log.info("postSearch : {}", postSearch);
 
         PageResponseDTO<Post, PostResponseDTO> result = postService.getList(postSearch, pageRequestDTO);
 

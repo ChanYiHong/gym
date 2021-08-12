@@ -12,6 +12,7 @@ import hcy.gym.dto.page.PageRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
 
@@ -25,7 +26,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Post> searchPost(PostSearch postSearch, PageRequestDTO pageRequestDTO) {
+    public Page<Post> searchPost(PostSearch postSearch, Pageable pageable) {
 
         QueryResults<Post> fetchResults = queryFactory
                 .select(post)
@@ -35,15 +36,15 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom{
                         categoryEq(postSearch.getCategory())
                 )
                 .orderBy(post.id.desc())
-                .offset(pageRequestDTO.getPage())
-                .limit(pageRequestDTO.getSize())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetchResults();
 
         List<Post> content = fetchResults.getResults();
         long total = fetchResults.getTotal();
 
-        return new PageImpl<>(content, pageRequestDTO.getPageable(Sort.by("id").descending()), total);
-        
+        return new PageImpl<>(content, pageable, total);
+
     }
 
     private BooleanExpression titleEq(String title) {

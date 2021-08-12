@@ -63,7 +63,9 @@ public class PostServiceImpl implements PostService{
     @Override
     public PageResponseDTO<Post, PostResponseDTO> getList(PostSearch postSearch, PageRequestDTO pageRequestDTO) {
 
-        Page<Post> result = postRepository.searchPost(postSearch, pageRequestDTO);
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").descending());
+
+        Page<Post> result = postRepository.searchPost(postSearch, pageable);
 
         Function<Post, PostResponseDTO> fn = this::entityToDTO;
 
