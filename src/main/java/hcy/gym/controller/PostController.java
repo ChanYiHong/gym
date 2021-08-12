@@ -8,6 +8,7 @@ import hcy.gym.dto.page.PageResponseDTO;
 import hcy.gym.dto.post.PostModifyDTO;
 import hcy.gym.dto.post.PostRequestDTO;
 import hcy.gym.dto.post.PostResponseDTO;
+import hcy.gym.repository.post.PostSearch;
 import hcy.gym.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,11 +64,12 @@ public class PostController {
 
     // post list view
     @GetMapping
-    public String postList(@ModelAttribute PageRequestDTO pageRequestDTO, Model model) {
+    public String postList(@ModelAttribute("postSearch") PostSearch postSearch
+                           ,@ModelAttribute PageRequestDTO pageRequestDTO, Model model) {
 
         log.info("Post Controller post list request : {}", pageRequestDTO);
 
-        PageResponseDTO<Post, PostResponseDTO> result = postService.getList(pageRequestDTO);
+        PageResponseDTO<Post, PostResponseDTO> result = postService.getList(postSearch, pageRequestDTO);
 
         model.addAttribute("posts", result);
 

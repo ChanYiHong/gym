@@ -9,6 +9,7 @@ import hcy.gym.dto.post.PostRequestDTO;
 import hcy.gym.dto.post.PostResponseDTO;
 import hcy.gym.repository.member.MemberRepository;
 import hcy.gym.repository.post.PostRepository;
+import hcy.gym.repository.post.PostSearch;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -60,13 +61,9 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public PageResponseDTO<Post, PostResponseDTO> getList(PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<Post, PostResponseDTO> getList(PostSearch postSearch, PageRequestDTO pageRequestDTO) {
 
-        log.info("PostService getList : {}", pageRequestDTO.getPage());
-
-        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").descending());
-
-        Page<Post> result = postRepository.findAll(pageable);
+        Page<Post> result = postRepository.searchPost(postSearch, pageRequestDTO);
 
         Function<Post, PostResponseDTO> fn = this::entityToDTO;
 

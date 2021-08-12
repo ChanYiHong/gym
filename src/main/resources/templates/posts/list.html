@@ -16,6 +16,16 @@
 
     <div class="row">
         <div class="col">
+            <form action="/posts" th:object="${postSearch}">
+                <input type="text" class="form-control" th:field="*{title}">
+                <select th:field="*{category}" class="form-select">
+                    <option value="" selected>==카테고리==</option>
+                    <option th:each="category : ${T(hcy.gym.domain.Category).values()}" th:value="${category.name()}"></option>
+                </select>
+                <button type="submit" class="btn btn-secondary">검색</button>
+            </form>
+        </div>
+        <div class="col">
             <button class="btn btn-primary float-end"
                     th:onclick="|location.href='@{/posts/new}'|"
                     type="button기">글 쓰기</button>

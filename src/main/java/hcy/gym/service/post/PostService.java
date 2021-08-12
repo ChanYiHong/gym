@@ -7,6 +7,7 @@ import hcy.gym.dto.page.PageResponseDTO;
 import hcy.gym.dto.post.PostModifyDTO;
 import hcy.gym.dto.post.PostRequestDTO;
 import hcy.gym.dto.post.PostResponseDTO;
+import hcy.gym.repository.post.PostSearch;
 
 public interface PostService {
 
@@ -17,7 +18,7 @@ public interface PostService {
     PostResponseDTO getOne(Long postId);
 
     // 게시글 전체 조회 (페이징)
-    PageResponseDTO<Post, PostResponseDTO> getList(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<Post, PostResponseDTO> getList(PostSearch postSearch, PageRequestDTO pageRequestDTO);
 
     // 게시글 수정
     void modify(PostModifyDTO postModifyDTO);
