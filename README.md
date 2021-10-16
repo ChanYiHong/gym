@@ -27,3 +27,12 @@ Ajax, GitHub
 ### 테이블 설계
 
 <img width="889" alt="스크린샷 2021-10-16 오후 11 56 33" src="https://user-images.githubusercontent.com/33217033/137592183-bfd7ec33-f92d-4871-90e9-0efe10b7cae3.png">
+
+
+### 애플리케이션 화면
+
+<img width="1422" alt="스크린샷 2021-10-17 오전 12 47 37" src="https://user-images.githubusercontent.com/33217033/137593901-cbf8c03b-a27a-4155-9766-2a1abf766ea5.png">
+
+<img width="1433" alt="스크린샷 2021-10-17 오전 12 48 30" src="https://user-images.githubusercontent.com/33217033/137593917-931b0d00-b1f0-453b-a3dc-dd6f8298bf31.png">
+
+<img width="1435" alt="스크린샷 2021-10-17 오전 12 48 45" src="https://user-images.githubusercontent.com/33217033/137593933-11083b1d-870b-46f2-b52a-cb3e1836f5b5.png">
