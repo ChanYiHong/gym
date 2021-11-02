@@ -21,7 +21,7 @@ Ajax, GitHub
 - 회원 가입, 자유게시판 게시글 작성 시 Validation 기능 추가
 - Message를 통한 국제화 기능 사용
 - UI는 BootStrap을 참고
-- Ajax 기술을 활용해 JSON API 구현 (댓글, 대댓글)
+- Ajax 기술을 활용해 restAPI 구현 (댓글, 대댓글)
 - Controller, Service, Repository, DTO, Domain 패키지로 나누어 유지보수가 쉽게 설계
 
 ### 테이블 설계
