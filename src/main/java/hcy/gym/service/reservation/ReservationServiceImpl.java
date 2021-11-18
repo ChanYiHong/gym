@@ -31,7 +31,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional
-    public void reserve(List<ReservationRequestDTO> reservationRequestDTOList) {
+    public synchronized void reserve(List<ReservationRequestDTO> reservationRequestDTOList) {
 
         Member member = memberRepository.findById(reservationRequestDTOList.get(0).getMemberId()).orElseThrow();
 
