@@ -16,13 +16,13 @@ Ajax, GitHub
 또한 자유게시판 기능을 만들었습니다. </br>
 이전과는 다르게 대댓글 기능을 추가해 다른 사용자가 작성한 댓글 밑에 댓글을 추가로 달 수 있게 제작했습니다. </br>
 
-- Javascript와 AJAX 를 활용해 예약 화면 시간표 작성
+- Javascript를 활용해 예약 화면 시간표 작성
 - Intercepter 와 ArgumentResolver 와 Session 활용해 로그인 구현
 - 회원 가입, 자유게시판 게시글 작성 시 Validation 기능 추가
-- Message를 통한 국제화 기능 사용
+- Message 기능 사용 
 - UI는 BootStrap을 참고
-- Ajax 기술을 활용해 restAPI 구현 (댓글, 대댓글)
-- Controller, Service, Repository, DTO, Domain 패키지로 나누어 유지보수가 쉽게 설계
+- restAPI 구현 (댓글, 대댓글) (Spring MVC, Ajax)
+- 자유게시판 대댓글 기능 추가
 
 ### 테이블 설계
 
